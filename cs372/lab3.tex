@@ -1,0 +1,125 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Lab 3} \\}
+
+\begin{enumerate}
+  \item Source IP Address: \texttt{192.168.1.102}
+
+  \item Protocol: ICMP
+
+  \item The IP header length is 20 bytes.  The total length is 84 bytes,
+        including the header.  Therefore, the payload is $84 - 20 = 64$ bytes.
+
+  \item The datagram has not been fragmented, as the "more data coming" flag is
+        not set.
+
+  \item The identification and the TTL differ for each echo request.
+
+  \item The lengths, protocol, and source and destination addresses stay
+        constant.  The addresses must remain the same as we need to continue to
+        attempt to reach the same host to test each router in-between.
+
+  \item The identification number is incremented by one for each request.
+
+  \item The identification is \texttt{0x0000} and the TTL is 246.
+
+  \item These fields remain constant for all messages received from the first
+        hop router.  The TTL will not change as the packets are only making one
+        hop, so the TTL is only decremented once.  The identification does not
+        change because the datagrams are not fragmented.
+
+  \item The 2000 byte message was split into two datagrams, one 1500 bytes and
+        the other 548 bytes.
+
+{\tiny
+\begin{verbatim}
+No.     Time        Source                Destination           Protocol Length Info
+     92 28.441511   192.168.1.102         128.59.23.100         IPv4     1514   Fragmented IP protocol (proto=ICMP 1, off=0, ID=32f9) [Reassembled in #93]
+
+Frame 92: 1514 bytes on wire (12112 bits), 1514 bytes captured (12112 bits)
+Ethernet II, Src: Actionte_8a:70:1a (00:20:e0:8a:70:1a), Dst: LinksysG_da:af:73 (00:06:25:da:af:73)
+Internet Protocol Version 4, Src: 192.168.1.102 (192.168.1.102), Dst: 128.59.23.100 (128.59.23.100)
+    Version: 4
+    Header length: 20 bytes
+    Differentiated Services Field: 0x00 (DSCP 0x00: Default; ECN: 0x00: Not-ECT (Not ECN-Capable Transport))
+    Total Length: 1500
+    Identification: 0x32f9 (13049)
+    Flags: 0x01 (More Fragments)
+        0... .... = Reserved bit: Not set
+        .0.. .... = Don't fragment: Not set
+        ..1. .... = More fragments: Set
+    Fragment offset: 0
+    Time to live: 1
+    Protocol: ICMP (1)
+    Header checksum: 0x077b [correct]
+    Source: 192.168.1.102 (192.168.1.102)
+    Destination: 128.59.23.100 (128.59.23.100)
+    Reassembled IPv4 in frame: 93
+Data (1480 bytes)
+\end{verbatim}
+}
+
+  \item The packet's ``More fragments'' bit is set, so the destination knows to
+        expect more data.  The fragment offset is 0, so the destination knows it
+        is the first piece.  The length of the first datagram is 1500 bytes.
+
+{\tiny
+\begin{verbatim}
+No.     Time        Source                Destination           Protocol Length Info
+     93 28.442185   192.168.1.102         128.59.23.100         ICMP     562    Echo (ping) request  id=0x0300, seq=30467/887, ttl=1
+
+Frame 93: 562 bytes on wire (4496 bits), 562 bytes captured (4496 bits)
+Ethernet II, Src: Actionte_8a:70:1a (00:20:e0:8a:70:1a), Dst: LinksysG_da:af:73 (00:06:25:da:af:73)
+Internet Protocol Version 4, Src: 192.168.1.102 (192.168.1.102), Dst: 128.59.23.100 (128.59.23.100)
+    Version: 4
+    Header length: 20 bytes
+    Differentiated Services Field: 0x00 (DSCP 0x00: Default; ECN: 0x00: Not-ECT (Not ECN-Capable Transport))
+    Total Length: 548
+    Identification: 0x32f9 (13049)
+    Flags: 0x00
+        0... .... = Reserved bit: Not set
+        .0.. .... = Don't fragment: Not set
+        ..0. .... = More fragments: Not set
+    Fragment offset: 1480
+    Time to live: 1
+    Protocol: ICMP (1)
+    Header checksum: 0x2a7a [correct]
+    Source: 192.168.1.102 (192.168.1.102)
+    Destination: 128.59.23.100 (128.59.23.100)
+    [2 IPv4 Fragments (2008 bytes): #92(1480), #93(528)]
+Internet Control Message Protocol
+    Type: 8 (Echo (ping) request)
+    Code: 0
+    Checksum: 0xd0c6 [correct]
+    Identifier (BE): 768 (0x0300)
+    Identifier (LE): 3 (0x0003)
+    Sequence number (BE): 30467 (0x7703)
+    Sequence number (LE): 887 (0x0377)
+    Data (2000 bytes)
+
+\end{verbatim}
+}
+
+  \item The fragment offset is non-zero, so this cannot be the first piece.
+        There are no more fragments because the ``More fragments'' bit is not
+        set.
+
+  \item The total length, more fragments flag, fragment offset, and header
+        checksum all change between the two datagrams.
+
+  \item The 3500 byte echo request was split into three datagrams, two of 1500
+        bytes and a third of 568.
+
+  \item The same headers change is in the two-fragment example above: the total
+        length, more fragments flag, fragment offset, and header checksum.
+
+\end{enumerate}
+\end{document}
