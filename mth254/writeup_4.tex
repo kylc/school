@@ -1,0 +1,46 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Math Write-up 4} \\}
+
+Given the vector $\vec v = 2i + 3j - 4k$ and the plane $3x + 2y - z = 0$, find
+the projection of the position vector onto the plane.  In other words, find
+$proj_{\vec n} \vec v$ where $\vec n$ is the vector normal to the plane, and
+then find the perpendicular vector along the plane.
+
+First, find $\vec n$.  Given the formula of a plane $ax + by + cz = d$, we can
+extract the vector from $a$, $b$, and $c$.
+
+$$
+  \vec n = 3i + 2j - k
+$$
+
+Now, calculate the projection.
+
+\begin{align*}
+  proj_{\vec n} \vec v &= \frac{\vec v \cdot \vec n}{\vec n \cdot \vec n} \vec n \\
+                       &= \frac{(2i + 3j - 4k) \cdot (3i + 2j - k)}{(3i + 2j -
+                          k) \cdot (3i + 2j - k)}(2i + 3j - 4k) \\
+                       &= \frac{8}{7}(3i + 2j - k)
+\end{align*}
+
+Now we have a vector along the normal, but we want the vector perpendicular to
+the normal (the vector that moves along the plane, as a visualization).  To find
+this, we subtract the projection from the vector.
+
+\begin{align*}
+  \vec v - proj_{\vec n} \vec v &= (2i + 3j - 4k) - \frac{8}{7}(3i + 2j - k) \\
+                                &= \frac{1}{7}(-10i + 5j - 20k)
+\end{align*}
+
+\end{document}

@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Math Write-up 1} \\}
+
+Given
+
+\begin{align*}
+  |F_1| &= 100lb \\
+  |F_2| &= 60lb
+\end{align*}
+
+Break each vector into its components.  Negate the $x$ component of $F_1$
+because it is in the second quadrant.
+
+\begin{align*}
+  F_{1x} = |F_1|\cos(\theta) &= -100\cos(45^{\circ}) \\
+  F_{1y} = |F_1|\sin(\theta) &=  100\sin(45^{\circ}) \\\\
+  F_{2x} = |F_2|\cos(\theta) &=  60 \cos(30^{\circ}) \\
+  F_{2y} = |F_2|\sin(\theta) &=  60 \sin(30^{\circ})
+\end{align*}
+
+We know that the $x$ components sum to 0 and the $y$ components sum to 0, as the
+system is in equilibrium.
+
+\begin{align*}
+  F_{1x} + F_{2x} + F_{3x} = 0 \\
+  F_{1y} + F_{2y} + F_{3y} = 0
+\end{align*}
+
+Therefore:
+
+\begin{align*}
+  F_{3x} &= -( F_{1x} + F_{2x} ) \\
+  F_{3y} &= -( F_{1y} + F_{2y} ) \\\\
+  F_{3x} &= -\left[ -100\cos(45^{\circ}) + 60\cos(30^{\circ}) \right] \\
+  F_{3y} &= -\left[  100\sin(45^{\circ}) + 60\sin(30^{\circ}) \right] \\\\
+  F_{3x} &= -\left[ -50\sqrt2 + 30\sqrt3 \right] = 18.749 \\
+  F_{3y} &= -\left[  50\sqrt2 + 30 \right] = -100.711
+\end{align*}
+
+We now have $C$, the third vector that puts the system into equilibrium.
+
+$$
+  C = F_3 = (-50\sqrt2 + 30\sqrt3)i + (50\sqrt2 + 30)j
+$$
+
+Find the magnitude, or force.
+
+$$
+  |C| = \sqrt{(-50\sqrt2 + 30\sqrt3)^2 + (50\sqrt2 + 30)^2} = 102.441
+$$
+
+The vector forms a triangle with its components, so we can use trigonometry to
+find the direction.
+
+$$
+  \theta_C = -\arctan\frac{100.711}{18.749} = -79.45^{\circ}
+$$
+
+\end{document}

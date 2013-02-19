@@ -1,0 +1,65 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Math Write-up 7} \\}
+
+Given the plane $x + 3y + z = 6$, maximize the volume of the solid formed
+between the plane and the xy-axis on the rectangle $R$ with the verticies $(0,
+0)$, $(a, 0)$, $(0, b)$, and $(a, b)$, where $a + 3b = 6$.
+
+\vspace{8mm}
+
+To solve this problem, we must first find a formula that represents the volume
+of the solid.  We will find this by tasking the double integral of the plane.
+Then, we will maximize the volume on the given domain.
+
+\vspace{2mm}
+
+First, we must find the volume by taking the double integral.
+
+$$
+  R = \{ (x, y) : 0 \le x \le a, 0 \le y \le b \}
+$$
+
+\begin{align*}
+  \int_0^b \int_0^a 6 - x - 3y \text{ dxdy}
+    &= \int_0^b \left[ 6 - \frac{1}{2}x^2 - 3xy \right]_0^a \text{ dy} \\
+    &= \int_0^b 6a - \frac{1}{2}a^2 - 3ay \text{ dy} \\
+    &= \left[ 6ay - \frac{1}{2}a^2y - \frac{3}{2}ay^2 \right]_0^b \\
+    &= -\frac{1}{2}ab \left[ a+3(b-4) \right]
+\end{align*}
+
+Now we need to find the maximum of this function on the domain $a + 3b = 6$.
+The easiest way to do this is to simply make a table of some possible values of
+$a$ and $b$, and finding their values.  Using this method, we find that the
+maximum is at the point $(3, 1)$ with a value of $9$ cubic units.
+
+\vspace{0.8mm}
+
+\begin{center}
+\begin{tabular}{ | c | c | }
+  \hline
+  $(x, y)$           & $f(x, y)$ \\
+  \hline
+  $(0, 2)$           & $0$ \\
+  $(1, \frac{5}{3})$ & $5$ \\
+  $(2, \frac{4}{3})$ & $8$ \\
+  $(3, 1)$           & $9$ \\
+  $(4, \frac{2}{3})$ & $8$ \\
+  $(5, \frac{1}{3})$ & $5$ \\
+  $(6, 0)$           & $0$ \\
+  \hline
+\end{tabular}
+\end{center}
+
+\end{document}

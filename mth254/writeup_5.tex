@@ -1,0 +1,57 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Math Write-up 5} \\}
+
+Given a function $F(x, y, z(x, y)) = 0$ that implicitly defines $z$ as a
+differentiable function of $x$ and $y$, prove that
+
+$$
+  \frac{ \partial z }{ \partial x } = -\frac{ F_x }{ F_z } \text{ and }
+  \frac{ \partial z }{ \partial y } = -\frac{ F_y }{ F_z }
+$$
+
+We know that, as $F(x, y, z(x, y)) = 0$ and $z$ is implicitly defined as a
+function of $x$ and $y$, we can say that
+
+$$
+  z(x, y) = -F(x, y)
+$$
+
+We can use the chain rule to solve for the partial derivatives we want
+
+\begin{align*}
+  \frac{ \partial z }{ \partial x } \frac{ dz }{ dx }
+    &= -\frac{ \partial F }{ \partial x } \frac{ \partial x }{ \partial z } \\
+  \frac{ dz }{ dx } 
+    &= -\frac{ \partial F }{ \partial z } / \frac{ \partial F }{ \partial x } \\
+    &= -\frac{ F_x }{ F_z } \\
+  \frac{ \partial z }{ \partial y } \frac{ dz }{ dy }
+    &= -\frac{ \partial F }{ \partial y } \frac{ \partial y }{ \partial z } \\
+  \frac{ dz }{ dy } 
+    &= -\frac{ \partial F }{ \partial z } / \frac{ \partial F }{ \partial y } \\
+    &= -\frac{ F_y }{ F_z }
+\end{align*}
+
+Now we can solve for $F_x$ and $F_y$ in $xy + xz + yz = 3$
+
+\begin{align*}
+  \frac{ \partial z }{ \partial x }
+    &= -\frac{ F_x }{ F_z } \\
+    &= -\frac{ y + z }{ x + y } \\
+  \frac{ \partial z }{ \partial y }
+    &= -\frac{ F_y }{ F_z } \\
+    &= -\frac{ x + z }{ x + y } \\
+\end{align*}
+
+\end{document}

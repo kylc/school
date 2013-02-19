@@ -1,0 +1,65 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Math Write-up 3} \\}
+
+Given
+
+\begin{align*}
+  x(t) &= a(t - \sin t) \\
+  y(t) &= a(1 - \cos t)
+\end{align*}
+
+Given that the length of a vector-valued function is $L = \int_a^b \sqrt{x'(t) +
+y'(t)} \ dt$, we can find the length of the given functions.
+
+To find the length, we first need to find the derivatives.
+
+\begin{align*}
+  x'(t) &= a(t - \cos t) \\
+  y'(t) &= a\sin t
+\end{align*}
+
+$$
+  L = \int_0^{2\pi} \sqrt{a^2(1-\cos t)^2 + a^2\sin^2 t} \ dt
+$$
+
+Simplify.
+
+\begin{align*}
+  L &= \int_0^{2\pi} \sqrt{a^2(1 - 2\cos t + \cos^2 t + \sin^2 t)} \ dt \\
+  L &= \int_0^{2\pi} \sqrt{a^2(1 - 2\cos t + 1)} \ dt \\
+  L &= a \int_0^{2\pi} \sqrt{2(1 - \cos t)} \ dt
+\end{align*}
+
+Use the trigonometric identity $\sin \frac{\theta}{2} = \sqrt{\frac{1 -
+\cos\theta}{2}}$ to integrate.
+
+\begin{align*}
+  L &= 2a \int_0^{2\pi} \sqrt{\frac{1 - \cos t}{2}} \ dt \\
+  L &= 2a \int_0^{2\pi} \sin\frac{t}{2} \ dt
+\end{align*}
+
+Now use $u$-substitution to finish the integration.
+
+$$
+  u = \frac{t}{2} \quad du = \frac{1}{2} \ dt \\
+$$
+
+\begin{align*}
+  L &= 4a \int_0^{2\pi} u \ du \\
+  L &= 4a \left[ -\cos\frac{t}{2} \right]_0^{2\pi} \\
+  L &= 4a(1 - (-1)) = 8a
+\end{align*}
+
+\end{document}

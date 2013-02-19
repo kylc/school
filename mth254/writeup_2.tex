@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Math Write-up 2} \\}
+
+Similar to the way a parallelogram can be considered a rectangle when finding
+its area, a parallelepiped can be considered a rectangular prism.  To find the
+volume, we will simply use $V = Ah$, where $A$ is the area of the base and $h$
+is the height.
+
+\vspace{10mm}
+
+First, let's solve for the area of the base.
+
+$$
+  A = |\vec v||\vec w|
+$$
+
+Now, let's find the height.
+
+$$
+  h = |\vec u|\cos\theta
+$$
+
+To find the total volume of the parallelepiped, multiple these together.
+
+$$
+  V = Ah = |\vec v||\vec w||\vec u|\cos\theta
+$$
+
+Now, let's compare this with what we are given.
+
+$$
+  V = |\vec u \cdot (\vec v \times \vec w)| = | |\vec u|(|\vec v||\vec w|\sin\phi)\cos\theta |
+$$
+
+However, in all parallelepipeds, the angle between $\vec v$ and $\vec w$ will be
+$\frac{\pi}{2}$, so $\sin\phi$ will always be $1$.  Therefore, we can remove it.
+
+$$
+  V = | |\vec u|(|\vec v||\vec w|)\cos\theta | = |\vec v||\vec w||\vec u|\cos\theta
+$$
+
+This is exactly the same as what we derived earlier.
+
+\end{document}
