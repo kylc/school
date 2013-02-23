@@ -1,4 +1,4 @@
-EXTS = ['aux', 'fdb_latexmk', 'log', 'pdf']
+EXTS = ['aux', 'fdb_latexmk', 'log', 'pdf', 'fls']
 
 files = EXTS.map { |t| Dir['**/*\.' + t] }
 
