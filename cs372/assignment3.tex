@@ -1,0 +1,78 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Assignment 3} \\}
+
+\begin{itemize}
+  \item[10.]
+    \begin{itemize}
+      \item[a.]
+        \begin{tabular}{l l}
+          \hline
+          Prefix & Link Interface \\ \hline
+          \texttt{11100000 00000000} & 0 \\
+          \texttt{11100000 00000001} & 1 \\
+          \texttt{11100000 0000001} & 2 \\
+          \texttt{11100001} & 3 \\
+          otherwise & 3 \\
+          \hline
+        \end{tabular}
+      \item[b.]
+        \begin{itemize}
+          \item[(i)] Fails match at \texttt{1111}, routes to link 3.
+          \item[(ii)] Matches link 1 at \texttt{11100000 00000000}.
+          \item[(iii)] Mathces link 3 at \texttt{11100001}.
+        \end{itemize}
+    \end{itemize}
+
+  \item[11.]
+    \begin{tabular}{l l l}
+      \hline
+      Address Range & Link Interface & \# Addresses \\ \hline
+      \texttt{00000000} to \texttt{00111111} & 0 & 64 \\
+      \texttt{01000000} to \texttt{01111111} & 1 & 64 \\
+      \texttt{10000000} to \texttt{11111111} & 2 & 128 \\
+      otherwise & 3 & 0 \\
+      \hline
+    \end{tabular}
+
+  \item[12.]
+    \begin{tabular}{l l l}
+      \hline
+      Address Range & Link Interface & \# Addresses \\ \hline
+      \texttt{11000000} to \texttt{11111111} & 0 & 64 \\
+      \texttt{10100000} to \texttt{10111111} & 1 & 32 \\
+      \texttt{10000000} to \texttt{10011111} & 2 & 32 \\
+      otherwise & 3 & 128 \\
+      \hline
+    \end{tabular}
+  
+  \item[13.] Given a prefix of \texttt{223.1.17/24}\ldots
+    \begin{itemize}
+      \item Subnet 1: \texttt{223.1.17.0/26}
+      \item Subnet 2: \texttt{223.1.17.128/25}
+      \item Subnet 3: \texttt{223.1.17.64/2}
+    \end{itemize}
+
+  \item[16.] Given a subnet of prefix \texttt{192.168.56.128/26},
+    \texttt{192.168.56.129/26} is a valid IP address.
+    \begin{itemize}
+      \item Subnet 1: \texttt{192.168.56.128/28}
+      \item Subnet 2: \texttt{192.168.56.160/28}
+      \item Subnet 3: \texttt{192.168.56.192/28}
+      \item Subnet 4: \texttt{192.168.56.224/28}
+    \end{itemize}
+
+  \item[26.]
+
+  \item[28.]
+
+\end{itemize}
+\end{document}
