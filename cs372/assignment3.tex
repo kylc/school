@@ -71,8 +71,26 @@
     \end{itemize}
 
   \item[26.]
+    \begin{tabular}{c c c c c c c c}
+      \hline
+      step & N'     & D(t),p(t) & D(u),p(u) & D(v),p(v) & D(w),p(w) & D(y),p(y) & D(z),p(z) \\ \hline
+      0    & x      & $\infty$  & $\infty$  & 3,x       & 6,x       & 6,x       & 8,x       \\
+      1    & xv     & 7,v       & 6,v       & 3,x       & 6,x       & 6,x       & 8,x       \\
+      2    & xvu    & 7,v       & 6,v       & 3,x       & 6,x       & 6,x       & 8,x       \\
+      3    & xvuw   & 7,v       & 6,v       & 3,x       & 6,x       & 6,x       & 8,x       \\
+      4    & xvuwy  & 7,v       & 6,v       & 3,x       & 6,x       & 6,x       & 8,x       \\
+      5    & xvuwyz & 7,v       & 6,v       & 3,x       & 6,x       & 6,x       & 8,x       \\
+      \hline
+    \end{tabular}
 
   \item[28.]
+    \begin{tabular}{c c | c c c c c}
+      \hline
+      cost to &   & u & v & x & y & z \\ \hline
+              & z & 6 & 5 & 2 & 5 & 0 \\
+              & v & 1 & 0 & 3 & 3 & 5 \\
+              & x & 4 & 3 & 0 & 3 & 2 \\
+    \end{tabular}
 
 \end{itemize}
 \end{document}
