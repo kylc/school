@@ -1,0 +1,19 @@
+Computers have become ubiquitous in today's world, and computer scientists are
+in high demand to program them.  My favorite subject is computer vision, a
+subfield within computer science concentrating on building systems that allow
+computers to recognize their environments.  Computer vision is becoming
+important in the medical field, in which one use is to analyze microscopy or
+X-ray images to make diagnoses.  Computer vision is also becoming more and more
+important in industry.  It can be used to inspect products for quality control
+or can be used for optical-based sorting.
+
+One of my favorite applications of computer vision is in robotic navigation.  If
+a robot is able to inspect its surroundings and construct an internal
+representation, then it can autonomously move through its environment.
+Autonomous robots using computer vision are currently being used by NASA to
+explore Mars and are making their way into everything from airplanes to
+consumer cars.
+
+Modern computer vision is still a young field and new applications are
+constantly being discovered.  I am excited to be a part of the field can't wait
+to see how it progresses.
