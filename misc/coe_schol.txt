@@ -1,0 +1,23 @@
+# Describe your career goals
+
+My primary goal is to explore the field of Computer Science as fully as
+possible.  I hope to have the chance to explore the latest programming languages
+and to be on the forefront of the expanding subfield of computer vision.
+
+# Describe how you intend to accomplish your goals and how your program of study
+will facilitate that
+
+I am attempting to use my time here at Oregon State University to explore my
+favorite fields of Computer Science, computer vision and graphics.  I have been
+able to participate in a number of projects that have facilitated this
+exploration.  Last year I had the privilege of working with the Intel Learning
+Company on a project that required complex 3D visualizations.  We were able to
+explore the latest in browser-based 3D display technology.  This year, I have
+been working on a research project to implement stereoscopic vision for our
+robotics club’s aerial vehicle.  I have taken up a leadership role in this
+project by initially brainstorming the idea, and then seeking out funding
+independently.
+
+I feel that opportunities are available within EECS for whatever interests a
+student has, and I feel as though I am taking full advantage of these
+opportunities.
