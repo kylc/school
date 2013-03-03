@@ -5,103 +5,138 @@
 \usepackage{times}
 \usepackage{graphicx}
 \usepackage{setspace}
-\usepackage{float}
+\usepackage{tabulary}
 
 \usepackage{anysize}
 \marginsize{1in}{1in}{1in}{1in} 
-% Resize section titles
-\usepackage{titlesec}
-\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}{\bfseries}{\thesection}{1em}{}
-
-% "<author> <page>" style page headers
-\usepackage{fancyhdr}
-\fancypagestyle{norule}{ %
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}
-}
-\fancyhf{}
-\pagestyle{norule}
-\rhead{Cesare \thepage}
-\setlength\headsep{0.333in}
 
 % Works cited environment
 % (to start, use \begin{workscited...}, each entry preceded by \bibent)
 %  - from Ryan Alcock's MLA style file
 \newcommand{\bibent}{\noindent \hangindent 40pt}
-\newenvironment{workscited}{\newpage\begin{center} \large\bfseries Works Cited \end{center} \doublespacing}{\newpage}
+\newenvironment{workscited}{\newpage\begin{center} \Large\bfseries Works Cited \end{center} \doublespacing}{\newpage}
 
 \DeclareGraphicsExtensions{.png}
 
 \begin{document}
 
-% Header
-\begin{flushleft}
-  Kyle Cesare \\
-  WR327, Section 016\\
-  March 9, 2013
-\end{flushleft}
+\begin{titlepage}
+  \begin{center}
+    {\LARGE Proposal of New eCampus Course:\\CS451 Building Open Source Software} \\[2cm]
 
-% No header on the first page
-\thispagestyle{empty}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft}
+        \emph{Submitter:} \\
+        Kyle Cesare \\
+        Oregon State University \\
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft}
+        \emph{Recipient:} \\
+        Executive Director Lisa L. Templeton \\
+        Oregon State University \\
+      \end{flushleft}
+    \end{minipage}
 
-\begin{center}
-  \Large \textbf{CS451: Building Open Source Software}
-\end{center}
+    \vfill
 
-\section*{Introduction}
+    March 15, 2013
 
-\section*{Background}
+  \end{center}
+\end{titlepage}
 
-\section*{Course Information}
+% Page number on the right, starting with 2
+\pagestyle{myheadings}
+\pagenumbering{roman}
+\setcounter{page}{2}
 
-\begin{tabular}{ | l | l | }
-  \hline
-  Department           & Electrical Engineering and Computer Science \\ \hline
-  Course Number        & CS451 \\ \hline
-  Disciplines Involved & Computer Science, Communication, Business \\ \hline
-  Pre-requisites       & CS261, CS311 \\ \hline
-\end{tabular}
+% Don't number the sections
+\setcounter{secnumdepth}{0}
+
+\section{Abstract}
+
+\pagebreak
+
+\tableofcontents
+
+\cleardoublepage
+\addcontentsline{toc}{section}{\listfigurename}
+\listoftables
+
+\pagebreak
+
+\pagenumbering{arabic}
+
+\section{Introduction}
+
+\section{Background}
+
+\section{Course Information}
+
+\begin{table}[h]
+  \begin{center}
+    \begin{tabular}{ | l | l | }
+      \hline
+      \textbf{Department}
+        & Electrical Engineering and Computer Science \\ \hline
+      \textbf{Course Number}
+        & CS451 \\ \hline
+      \textbf{Disciplines Involved}
+        & Computer Science, Communication, Business \\ \hline
+      \textbf{Pre-requisites}
+        & CS261, CS311, CS361, CS362 \\ \hline
+    \end{tabular}
+    \caption{Course Information}
+  \end{center}
+\end{table}
 
 % Department, Course number, description of course contents, how it fits into
 % the curriculum, disciplines involved, pre-requisites.
 % Reasons for offering this course. Degree fulfillments (bacc core, major core,
 % WIC, project, etc.). Academic/Professional fulfillments: Who the course would
 % appeal to and how it would meet their academic/professional needs.
-\subsection*{Description}
+\subsection{Description}
+
+% Describe the pedagogical outcomes the course will meet.
+\subsection{Outcomes}
 \begin{description}
   \item[Test] A test outcome.
 \end{description}
 
-% Describe the pedagogical outcomes the course will meet.
-\subsection*{Outcomes}
+\subsection{Schedule}
 
-\subsection*{Schedule}
-\begin{tabular}{| c | l | }
-  \hline
-  \textbf{Week}  & \textbf{Material} \\ \hline
-  1              & This is a test week. \\ \hline
-  2              & This is a test week. \\ \hline
-  3              & This is a test week. \\ \hline
-  4              & This is a test week. \\ \hline
-  5              & This is a test week. \\ \hline
-  6              & This is a test week. \\ \hline
-  7              & This is a test week. \\ \hline
-  8              & This is a test week. \\ \hline
-  9              & This is a test week. \\ \hline
-  10             & This is a test week. \\ \hline
-\end{tabular}
+\begin{table}[h]
+  \begin{center}
+    \begin{tabulary}{0.8\textwidth}{| c | L | }
+      \hline
+      \textbf{Week}  & \textbf{Material} \\ \hline
+      1              & This is a test week. \\ \hline
+      2              & This is a test week. \\ \hline
+      3              & This is a test week. \\ \hline
+      4              & This is a test week. \\ \hline
+      5              & This is a test week. \\ \hline
+      6              & This is a test week. \\ \hline
+      7              & This is a test week. \\ \hline
+      8              & This is a test week. \\ \hline
+      9              & This is a test week. \\ \hline
+      10             & This is a test week. \\ \hline
+    \end{tabulary}
+    \caption{10-Week Schedule}
+  \end{center}
+\end{table}
 
-\subsection*{Resources}
+\subsection{Resources}
 \begin{itemize}
   \item Some resources
   \item Some resources
   \item Some resources
 \end{itemize}
 
-\section*{Conclusion}
+\section{Conclusion}
 
 \begin{workscited}
+\addcontentsline{toc}{section}{Works Cited}
 
 \end{workscited}
 \end{document}
