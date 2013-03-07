@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage{hyperref}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Lab 4} \\}
+
+\begin{enumerate}
+  \item Ethernet address \texttt{8c:a9:82:97:87:f4}.
+
+  \item Destination address: \texttt{00:25:00:fe:ba:9a}.  No, this is not
+    \url{gaia.cs.umass.edu}.  This is simply the next hop in the route to the
+    website.  In this case, it is my router.
+
+  \item \texttt{0x0800}.  This corresponds to IP.
+
+  \item The \texttt{G} is the 67th byte in the Ethernet frame.
+
+  \item Source address: \texttt{00:25:00:fe:ba:9a}.  Again, this is not
+    \url{gaia.cs.umass.edu}.  This is simply the next hop in the route to the
+    website.  In this case, it is my router.
+
+  \item Destination address \texttt{8c:a9:82:97:87:f4}.  This is the Ethernet
+    address of my computer.
+
+  \item \texttt{0x0800}.  This corresponds to IP.
+
+  \item The \texttt{O} in \texttt{OK} is the 80th byte in the Ethernet frame.
+
+{\tiny
+\begin{verbatim}
+Address                  HWtype  HWaddress           Flags Mask            Iface
+10.0.1.1                 ether   00:25:00:fe:ba:9a   C                     wlo1
+\end{verbatim}
+}
+
+  \item The \texttt{address} is the network layer address of the host.  In this
+    case, it is an IP address.  The \texttt{HWtype} column specifies the type of
+    connection to that host.  The \texttt{HWaddress} is the link-layer
+    (Ethernet) address.  The \texttt{Iface} column is the Linux interface to
+    which this entry is applicable.
+
+  \item The source is my computer's address, \texttt{8c:a9:82:97:87:f4}.  The
+    destination is \texttt{ff:ff:ff:ff:ff:ff}, which seems to be a broadcast
+    address.
+
+  \item The frame type is \texttt{0x0806}, which corresponds to the ARP
+    protocol.
+
+  \item
+    \begin{enumerate}
+      \item The \texttt{opcode} field begins after 144 bits, or 18 bytes.
+      \item The payload of the \texttt{opcode} field can either be a
+        \texttt{REQUEST} or a \texttt{REPLY}.
+      \item The sender's IP address is stored in the \texttt{ar\$spa} field.
+      \item The requested hardware address is given for the provided target
+        protocol address, \texttt{ar\$tpa}.
+    \end{enumerate}
+
+  \item
+    \begin{enumerate}
+      \item The \texttt{opcode} field begins after 8 bytes.
+      \item The \texttt{opcode} has a value of 2, which represents a
+        \texttt{REPLY}.
+      \item The answer to the initial request is available in the \texttt{Target
+        MAC Address} field.
+    \end{enumerate}
+
+  \item The source is my router (\texttt{00:25:00:fe:ba:9a}) and the destination
+    is my computer (\texttt{8c:a9:82:97:87:f4}).
+
+  \item There is in fact an ARP reply, but it was not directed to us, so we can
+    not view it.  As we saw, an ARP request broadcasts to all addresses, but the
+    reply is only to the specific host that requested.  Therefore, the host
+    requested for all addresses, then the ARP reply was sent only to that
+    computer.
+
+  \item If you entered the correct IP address but the wrong physical address,
+    then all data would go to the wrong hardware location.  Likely, the provided
+    \texttt{EtherAddr} will not exist, so the packets will be ignored.
+
+  \item Timeouts are typically between 10 and 20 minutes.  This value was found
+    at \url{http://www.tcpipguide.com/free/t_ARPCaching-2.htm}.
+
+\end{enumerate}
+\end{document}
