@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage{setspace}
 \usepackage{tabulary}
+\usepackage{float}
+\usepackage{hyperref}
 
 \usepackage{anysize}
 \marginsize{1in}{1in}{1in}{1in} 
@@ -69,6 +71,18 @@
 \pagenumbering{arabic}
 
 \section{Introduction}
+In CS451, students will learn the tools and processes used in open source
+software.  I propose this course be added to the eCampus cirriculum to teach
+students the skills required to contribute to real-world projects working with
+other developers.  CS451 will not attempt to to cover every development tool and
+process.  Rather, it will discuss a selection of the most popular tools and
+processes.
+
+This proposal is organized as follows: first, I will discuss the background of
+related coursework already being offered.  Then, I will provide information on
+the proposed course, including a high-level description, a set of learning
+outcomes, a 10-week schedule of topics, and a list of possible resources for the
+class.
 
 \section{Background}
 
@@ -82,6 +96,8 @@
         & Electrical Engineering and Computer Science \\ \hline
       \textbf{Course Number}
         & CS451 \\ \hline
+      \textbf{Course Name}
+        & Building Open Source Software\\ \hline
       \textbf{Disciplines Involved}
         & Computer Science, Communication, Business \\ \hline
       \textbf{Pre-requisites}
@@ -97,41 +113,59 @@
 % WIC, project, etc.). Academic/Professional fulfillments: Who the course would
 % appeal to and how it would meet their academic/professional needs.
 \subsection{Description}
+In Building Open Source Software (CS451), students will learn the tools and
+processes used in open source software.  Students currently learn many of the
+techniques used in building proprietary software, but open source software often
+uses entirely different practices.  This class is not strictly limited to
+computer science majors.  Electrical and computer engineering majors would also
+benefit from learning how to contribute to open source projects.
 
 % Describe the pedagogical outcomes the course will meet.
 \subsection{Outcomes}
+Upon completion of the course, students should be proficient in the following
+areas:
+
 \begin{description}
-  \item[Test] A test outcome.
+  \item[Version Control] Use of version control systems, centralized and
+    distributed, for the process of making change sets and committing them to
+    project maintainers.
+  \item[Communication Tools] Use of communication tools common in open source
+    projects, allowing students to communicate with project maintainers.
+  \item[Open Source Process] Understand the open source process, from project
+    creation to management of large projects with many developers.
 \end{description}
 
 \subsection{Schedule}
-
-\begin{table}[h]
+\begin{table}[H]
   \begin{center}
     \begin{tabulary}{0.8\textwidth}{| c | L | }
       \hline
       \textbf{Week}  & \textbf{Material} \\ \hline
-      1              & This is a test week. \\ \hline
-      2              & This is a test week. \\ \hline
-      3              & This is a test week. \\ \hline
-      4              & This is a test week. \\ \hline
-      5              & This is a test week. \\ \hline
-      6              & This is a test week. \\ \hline
-      7              & This is a test week. \\ \hline
-      8              & This is a test week. \\ \hline
-      9              & This is a test week. \\ \hline
-      10             & This is a test week. \\ \hline
+      1              & Introduction to Open Source \\ \hline
+      2              & Communication Tools \\ \hline
+      3              & Version Control Systems (CVS, Subversion) \\ \hline
+      4              & Version Control Systems (Git, Mercurial) \\ \hline
+      5              & Open Source Development Patterns \\ \hline
+      6              & Open Source Development Patterns Cont. \\ \hline
+      7              & Project Analysis: Mozilla Firefox \\ \hline
+      8              & Project Analysis: Mozilla Firefox Cont. \\ \hline
+      9              & Project Analysis: Linux Kernel \\ \hline
+      10             & Project Analysis: Linux Kernel Cont. \\ \hline
     \end{tabulary}
     \caption{10-Week Schedule}
   \end{center}
 \end{table}
 
 \subsection{Resources}
-\begin{itemize}
-  \item Some resources
-  \item Some resources
-  \item Some resources
-\end{itemize}
+\begin{description}
+  \item[Free Software Foundation (\url{http://fsf.org})] The Free Software
+    Foundation provides a number of resources pertaining to open source
+    licensing and free software services.
+  \item[Open Source Wikibook (\url{http://en.wikibooks.org/wiki/Open_Source})]
+    This Wikibook provides an overview of the history of open source, open
+    source philosophy, and the common licensing methods.
+  \item[GitHub (\url{http://github.com})] A directory of open-source projects.
+\end{description}
 
 \section{Conclusion}
 
