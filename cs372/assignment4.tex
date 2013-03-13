@@ -1,0 +1,128 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage[fleqn]{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Assignment 4} \\}
+
+\begin{itemize}
+  \item[9.] We first find the $p$ value that yields the highest efficiency.
+    \begin{align*}
+      E(p) &= Np(1-p)^{2(N-1)} \\
+      E'(p) &= N[(1-p)^{2(N-1)}] + Np[-2(N-1)(1-p)^{2n-3}] \\
+            &= N(1-p)^{2n-3}[(1-p) - 2p(N-1)] \\
+      p* &= \frac{1}{2N-1} \\
+    \end{align*}
+    We can then take the limit of our efficiency function as $N$ goes to
+    infinity.
+    \[ \lim_{N \to \infty} E(p*) = \frac{1}{2e} \]
+  \item[10.]
+    \begin{itemize}
+      \item[a.] We can first find the efficiency of node A.
+        \[ E(p_A) = p_A(1-p_B) \]
+        We can then find the efficiency of the link.
+        \[ E(p_A, p_B) = p_A(1-p_B) + p_B(1-p_A) \]
+        We can also find the throughput for a specific node.
+        \[ R_A = R * E(p_A) \]
+      \item[b.] No.  If $p_A = 2p_B$, then $E(p_A) = 2p_B - 2p_B^2$ and
+        $E(p_B) = p_B - 2p_B^2$. For $E(p_A) = 2E(p_B)$
+        \[ p_A = \frac{2p_B}{p_B + 1} \]
+      \item[c.] The efficiency of any node is given by
+        \[ E(p) = 2p(1-p)^{N-1} \]
+        Any other node has throughput
+        \[ E(p) = p(1-p)^{N-2}(1-2p) \]
+    \end{itemize}
+  \item[13.] We know the time for every host to transmit a single frame.
+        \[ d = N(\frac{Q}{R} + d_{poll}) \]
+        For each round, $NQ$ bits are transmitted, so the throughput is
+        \[ \frac{Q}{\frac{Q}{R} + d_{poll}} \]
+  \item[14.]
+    \begin{itemize}
+      \item[a, b.] Below, $R_1L$ for instance refers to the left interface of
+                   the first router. \\
+        \begin{tabular}{ l | l | l }
+          Interface & IP Address  & MAC Address \\ \hline
+          A         & 192.168.1.1 & 01:23:45:67:89:00 \\ \hline
+          B         & 192.168.1.2 & 01:23:45:67:89:01 \\ \hline
+          C         & 192.168.2.1 & 01:23:45:67:89:02 \\ \hline
+          D         & 192.168.2.2 & 01:23:45:67:89:03 \\ \hline
+          E         & 192.168.3.1 & 01:23:45:67:89:04 \\ \hline
+          F         & 192.168.3.2 & 01:23:45:67:89:05 \\ \hline
+          $R_{1L}$  & 192.168.1.3 & 01:23:45:67:89:06 \\ \hline
+          $R_{1R}$  & 192.168.2.3 & 01:23:45:67:89:07 \\ \hline
+          $R_{2L}$  & 192.168.2.4 & 01:23:45:67:89:08 \\ \hline
+          $R_{2R}$  & 192.168.3.3 & 01:23:45:67:89:09 \\
+        \end{tabular}
+      \item[c.]
+        \begin{enumerate}
+          \item The host must first send the datagram to its adapter.  It
+                acquires the MAC address through ARP and sends the datagram to
+                \texttt{01:23:45:67:89:09}.
+          \item The rightmost switch will see that this datagram is directed
+                within the subnet, so it forwards it to $R_2$.
+          \item $R_2$ examines its forwarding table and decides it must send the
+                datagram to $R_1$.  Consulting its ARP table, it sends to on
+                interface \texttt{01:23:45:67:89:07}.
+          \item $R_1$ consults its ARP table to find the interface with the
+                destination IP and sends the datagram to the destination host at
+                \texttt{01:23:45:67:89:01}.
+        \end{enumerate}
+      \item[d.]
+        \begin{enumerate}
+          \item The sending host sends an ARP packet for the interface with IP
+                address \texttt{192.168.3.3}, or $R_{2R}$.
+          \item The router responds, informing the host of it's MAC address
+                \texttt{01:23:45:67:89:09}.
+          \item The ARP table is now filled.  The steps outlined above are
+                executed.
+        \end{enumerate}
+    \end{itemize}
+  \item[20.]
+    \begin{itemize}
+      \item[a.] We know the probability of a productive slot and the number of
+      slots until a productive slot, so
+      \[ Np(1-p)^{N-1} = \frac{1}{x+1} \]
+      Then, we can solve for $x$.
+      \[ x = \frac{1-Np(1-p)^{N-1}}{Np(1-p)^{N-1}} \]
+      So, we can find the efficiency of the protocol.
+      \[ E(p) = \frac{k}{k + \frac{1-Np(1-p)^{N-1}}{Np(1-p)^{N-1}}} \]
+      \item[b.] 
+      \[ p = \frac{1}{N} \]
+      \item[c.] The probability goes to zero, so no hosts send any data.
+      \begin{align*}
+        \lim_{N \to \infty} E(p)
+        &= \lim_{N \to \infty} \frac{k}{k + \frac{1-Np(1-p)^{N-1}}{Np(1-p)^{N-1}}} \\
+        &= \frac{k}{k + e - 1}
+      \end{align*}
+      \item[d.]
+      \[ k = \frac{L}{RS} \]
+      \[ \lim_{L \to \infty} k = \infty \]
+      \[ \lim_{k \to \infty} \frac{k}{k + \frac{1-Np(1-p)^{N-1}}{Np(1-p)^{N-1}}} = 1 \]
+    \end{itemize}
+  \item[21.] Use the table from problem 14.
+    \begin{itemize}
+      \item[(i)] IP: \texttt{192.168.3.2} MAC: \texttt{01:23:45:67:89:06}
+      \item[(ii)] IP: \texttt{192.168.3.2} MAC: \texttt{01:23:45:67:89:08}
+      \item[(iii)] IP: \texttt{192.168.3.2} MAC: \texttt{01:23:45:67:89:05}
+    \end{itemize}
+  \item[A.] We want $\frac{L}{R} = \frac{d}{s}$, so
+    \[ L = \frac{Rd}{s} \]
+    If we assume that $R = 100$Mbit/s and $s = 2.0 \times 10^8$m/s, then $L =
+    1500$ bits.
+  \item[B.]
+    \begin{itemize}
+      \item[1.]
+        \[ d_{prop} = \frac{d}{s} + 4\frac{20}{R} = 4.8 \times 10^{-6} s \]
+      \item[2.]
+        \[ d_{trans} = d_{prop} + \frac{L}{R} = 1.98 \times 10^{-5} \]
+      \item[3.]
+        \[ d_{trans} = d_{prop} + 5\frac{L}{R} = 7.98 \times 10^{-5} \]
+    \end{itemize}
+\end{itemize}
+\end{document}
