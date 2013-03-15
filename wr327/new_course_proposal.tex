@@ -8,6 +8,7 @@
 \usepackage{tabulary}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{array}
 
 \usepackage{anysize}
 \marginsize{1in}{1in}{1in}{1in} 
@@ -24,7 +25,7 @@
 
 \begin{titlepage}
   \begin{center}
-    {\LARGE Proposal of New eCampus Course:\\CS451 Building Open Source Software} \\[2cm]
+    {\LARGE Proposal of New E-Campus Course:\\CS451 Building Open Source Software} \\[2cm]
 
     \begin{minipage}{0.4\textwidth}
       \begin{flushleft}
@@ -57,6 +58,17 @@
 \setcounter{secnumdepth}{0}
 
 \section{Abstract}
+In CS451 Building Open Source Software, students will learn the tools and
+processes used in open source software.  Students are currently limited to
+working only with small purpose-made teaching software, but teaching students
+about open source would open up thousands of real-world software projects.  Open
+source is also a great way for students to learn about cutting-edge technology.
+Open source also gives students' careers a huge boost, as many companies look
+for open source participation and contribution when hiring.  In this course,
+students will first be introduced to open source.  They will then learn about
+version control systems, communication tools, and development patterns.  Then,
+they will engage in a project studying two large open source projects.  For
+these reasons, CS451 should be added to the E-Campus curriculum.
 
 \pagebreak
 
@@ -68,15 +80,14 @@
 
 \pagebreak
 
-\pagenumbering{arabic}
-
+\pagenumbering{arabic} 
 \section{Introduction}
-In CS451, students will learn the tools and processes used in open source
-software.  I propose this course be added to the eCampus cirriculum to teach
-students the skills required to contribute to real-world projects working with
-other developers.  CS451 will not attempt to to cover every development tool and
-process.  Rather, it will discuss a selection of the most popular tools and
-processes.
+In CS451 Building Open Source Software, students will learn the tools and
+processes commonly used in open source and free software projects.  I propose
+this course be added to the E-Campus curriculum to teach students the skills
+required to contribute to real-world projects working with other developers.
+CS451 will not attempt to to cover every development tool and process.  Rather,
+it will discuss a selection of the most popular tools and processes.
 
 This proposal is organized as follows: first, I will discuss the background of
 related coursework already being offered.  Then, I will provide information on
@@ -85,11 +96,41 @@ outcomes, a 10-week schedule of topics, and a list of possible resources for the
 class.
 
 \section{Background}
+% TODO: Citation
+Open source software is software to which the source code is freely available.
+This is opposed to proprietary software.  Some examples of open source software
+include the Firefox web browser, OpenOffice, and the Linux operating system
+(TODO: FSF).
+
+While there are many computer science courses available on E-Campus, very few
+allow students to analyze and understand existing projects.  While CS361 and
+CS362 Software Engineering teach development methodologies and tools, they do so
+on artificial software contrived specifically for the class.  Studying open
+source projects would expose students to the development of large real-world
+software.
+
+% TODO: Expand.  Talk about pet projects and resumes.
+% TODO: Citations needed
+Open source is also a great way for students to learn about cutting-edge
+technologies and ideas.  For example, the open source programming language
+Haskell is considered one of the most technologically advanced programming
+languages, implementing a number of very recent research topics.  Because it is
+open source, researchers, students, and volunteers can all use it as a learning
+tool and even make contributions.
+
+% TODO: Citation
+There are also many career opportunities stemming from open source development.
+For example, Mozilla, the company behind Firefox, clearly states on their hiring
+page that they are seeking software engineers with experience in participating
+and contributing to open source projects (Mozilla).  Google also states that
+open source experience is beneficial, and they even hire developers to
+exclusively work on open source projects (Google).
 
 \section{Course Information}
 
-\begin{table}[h]
+\begin{table}[H]
   \begin{center}
+    \renewcommand{\arraystretch}{1.5}
     \begin{tabular}{ | l | l | }
       \hline
       \textbf{Department}
@@ -113,7 +154,7 @@ class.
 % WIC, project, etc.). Academic/Professional fulfillments: Who the course would
 % appeal to and how it would meet their academic/professional needs.
 \subsection{Description}
-In Building Open Source Software (CS451), students will learn the tools and
+In CS451 Building Open Source Software, students will learn the tools and
 processes used in open source software.  Students currently learn many of the
 techniques used in building proprietary software, but open source software often
 uses entirely different practices.  This class is not strictly limited to
@@ -130,14 +171,18 @@ areas:
     distributed, for the process of making change sets and committing them to
     project maintainers.
   \item[Communication Tools] Use of communication tools common in open source
-    projects, allowing students to communicate with project maintainers.
+    projects, allowing students to communicate with project maintainers and
+    other developers.
   \item[Open Source Process] Understand the open source process, from project
     creation to management of large projects with many developers.
+  \item[Contributing to Open Source] Understand the process of contributing to
+    open source projects as a developers.
 \end{description}
 
 \subsection{Schedule}
 \begin{table}[H]
   \begin{center}
+    \renewcommand{\arraystretch}{1.5}
     \begin{tabulary}{0.8\textwidth}{| c | L | }
       \hline
       \textbf{Week}  & \textbf{Material} \\ \hline
@@ -152,25 +197,47 @@ areas:
       9              & Project Analysis: Linux Kernel \\ \hline
       10             & Project Analysis: Linux Kernel Cont. \\ \hline
     \end{tabulary}
-    \caption{10-Week Schedule}
+    \caption{10-Week Schedule of Topics}
   \end{center}
 \end{table}
 
 \subsection{Resources}
 \begin{description}
-  \item[Free Software Foundation (\url{http://fsf.org})] The Free Software
-    Foundation provides a number of resources pertaining to open source
-    licensing and free software services.
   \item[Open Source Wikibook (\url{http://en.wikibooks.org/wiki/Open_Source})]
     This Wikibook provides an overview of the history of open source, open
     source philosophy, and the common licensing methods.
+  \item[Free Software Foundation (\url{http://fsf.org})] The Free Software
+    Foundation provides a number of resources pertaining to open source
+    licensing and free software services.  Students will be able to learn about
+    free software licensing with the Free Software Foundation's plain English
+    explanations.
+  \item[GNU Operating System (\url{http://www.gnu.org/})] One of the largest
+    open source projects: an entire operating system implementation.
   \item[GitHub (\url{http://github.com})] A directory of open-source projects.
+    Students can explore open source, from small personal experiments to giant
+    open source projects with hundreds of developers.  Students can also use the
+    integrated issue tracker and associated tools to learn about communication
+    within open source projects.
 \end{description}
 
 \section{Conclusion}
+To summarize, CS451 Building Open Source Software is a class focused on teaching
+students about the tools and processes used in open source and free software
+projects.  Students would be able to work with large real-world software,
+something they wouldn't otherwise be able to do.  Students will learn about the
+latest technologies as they pertain to software development.  Students will have
+useful open source experience that modern employers are seeking.  For the
+reasons outlined above, CS451 Building Open Source Software should be added to
+the E-Campus curriculum.
 
 \begin{workscited}
 \addcontentsline{toc}{section}{Works Cited}
+
+% http://www.fsf.org/about/what-is-free-software
+
+% http://careers.mozilla.org/en-US/position/ozWfXfwr
+
+% https://www.google.com/about/jobs/search/#!t=jo&jid=29119&
 
 \end{workscited}
 \end{document}
