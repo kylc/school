@@ -3,7 +3,6 @@
 \usepackage{ifpdf}
 \usepackage[utf8]{inputenc}
 \usepackage{times}
-\usepackage{graphicx}
 \usepackage{setspace}
 \usepackage{tabulary}
 \usepackage{float}
@@ -19,7 +18,7 @@
 \newcommand{\bibent}{\noindent \hangindent 40pt}
 \newenvironment{workscited}{\newpage\begin{center} \Large\bfseries Works Cited \end{center} \doublespacing}{\newpage}
 
-\DeclareGraphicsExtensions{.png}
+\newcommand{\mkref}[1]{[\textbf{#1}]}
 
 \begin{document}
 
@@ -58,17 +57,17 @@
 \setcounter{secnumdepth}{0}
 
 \section{Abstract}
-In CS451 Building Open Source Software, students will learn the tools and
+In CS451, Building Open Source Software, students will learn the tools and
 processes used in open source software.  Students are currently limited to
 working only with small purpose-made teaching software, but teaching students
 about open source would open up thousands of real-world software projects.  Open
 source is also a great way for students to learn about cutting-edge technology.
-Open source also gives students' careers a huge boost, as many companies look
-for open source participation and contribution when hiring.  In this course,
-students will first be introduced to open source.  They will then learn about
-version control systems, communication tools, and development patterns.  Then,
-they will engage in a project studying two large open source projects.  For
-these reasons, CS451 should be added to the E-Campus curriculum.
+Open source also gives students' careers a huge boost, because many companies
+look for open source participation and contribution when hiring.  In this
+course, students will first be introduced to open source.  They will then learn
+about version control systems, communication tools, and development patterns.
+Then, they will engage in a project studying two large open source projects.
+For these reasons, CS451 should be added to the E-Campus curriculum.
 
 \pagebreak
 
@@ -82,49 +81,46 @@ these reasons, CS451 should be added to the E-Campus curriculum.
 
 \pagenumbering{arabic} 
 \section{Introduction}
-In CS451 Building Open Source Software, students will learn the tools and
-processes commonly used in open source and free software projects.  I propose
-this course be added to the E-Campus curriculum to teach students the skills
-required to contribute to real-world projects working with other developers.
-CS451 will not attempt to to cover every development tool and process.  Rather,
-it will discuss a selection of the most popular tools and processes.
+In CS451, Building Open Source Software, students will learn the tools and
+processes commonly used in open source and free software projects.  This paper
+proposes this course be added to the E-Campus curriculum to teach students the
+skills required to contribute to real-world projects.  CS451 will not attempt to
+to cover every development tool and process.  Rather, it will discuss a
+selection of the most popular tools and processes.  This proposal does not
+attempt to define a course syllabus or appoint a teacher.
 
-This proposal is organized as follows: first, I will discuss the background of
-related coursework already being offered.  Then, I will provide information on
-the proposed course, including a high-level description, a set of learning
-outcomes, a 10-week schedule of topics, and a list of possible resources for the
-class.
+This proposal is organized as follows: first, open source will be defined and
+related coursework will be discusses.  Then, information on the proposed course,
+including a high-level description, a set of learning outcomes, a 10-week
+schedule of topics, and a list of possible resources for the class will be
+provided.
 
 \section{Background}
-% TODO: Citation
-Open source software is software to which the source code is freely available.
-This is opposed to proprietary software.  Some examples of open source software
+Open source software is software to which the source code is freely available,
+as opposed to proprietary software.  Some examples of open source software
 include the Firefox web browser, OpenOffice, and the Linux operating system
-(TODO: FSF).
+\mkref{1}.
 
 While there are many computer science courses available on E-Campus, very few
 allow students to analyze and understand existing projects.  While CS361 and
-CS362 Software Engineering teach development methodologies and tools, they do so
-on artificial software contrived specifically for the class.  Studying open
-source projects would expose students to the development of large real-world
-software.
+CS362, Software Engineering I and II, teach development methodologies and tools,
+they do so on artificial software contrived specifically for the class
+\mkref{4}.  Studying open source projects would expose students to the
+development of large real-world software.
 
-% TODO: Expand.  Talk about pet projects and resumes.
-% TODO: Citations needed
 Open source is also a great way for students to learn about cutting-edge
 technologies and ideas.  For example, the open source programming language
 Haskell is considered one of the most technologically advanced programming
-languages, implementing a number of very recent research topics.  Because it is
-open source, researchers, students, and volunteers can all use it as a learning
-tool and even make contributions.
+languages, implementing a number of very recent research topics \mkref{5}.
+Because it is open source, researchers, students, and volunteers can all use it
+as a learning tool and even make contributions.
 
-% TODO: Citation
 There are also many career opportunities stemming from open source development.
 For example, Mozilla, the company behind Firefox, clearly states on their hiring
 page that they are seeking software engineers with experience in participating
-and contributing to open source projects (Mozilla).  Google also states that
+and contributing to open source projects \mkref{2}.  Google also states that
 open source experience is beneficial, and they even hire developers to
-exclusively work on open source projects (Google).
+exclusively work on open source projects \mkref{3}.
 
 \section{Course Information}
 
@@ -139,6 +135,8 @@ exclusively work on open source projects (Google).
         & CS451 \\ \hline
       \textbf{Course Name}
         & Building Open Source Software\\ \hline
+      \textbf{Credits}
+        & 3 \\ \hline
       \textbf{Disciplines Involved}
         & Computer Science, Communication, Business \\ \hline
       \textbf{Pre-requisites}
@@ -154,12 +152,12 @@ exclusively work on open source projects (Google).
 % WIC, project, etc.). Academic/Professional fulfillments: Who the course would
 % appeal to and how it would meet their academic/professional needs.
 \subsection{Description}
-In CS451 Building Open Source Software, students will learn the tools and
-processes used in open source software.  Students currently learn many of the
-techniques used in building proprietary software, but open source software often
-uses entirely different practices.  This class is not strictly limited to
-computer science majors.  Electrical and computer engineering majors would also
-benefit from learning how to contribute to open source projects.
+In CS451, Building Open Source Software, students will learn the tools and
+processes commonly used in open source and free software projects.  Students
+will learn the skills necessary to contribute to existing projects and start
+their own.  This class is not strictly limited to computer science majors.
+Electrical and computer engineering majors would also benefit from learning how
+to contribute to open source projects.
 
 % Describe the pedagogical outcomes the course will meet.
 \subsection{Outcomes}
@@ -173,10 +171,10 @@ areas:
   \item[Communication Tools] Use of communication tools common in open source
     projects, allowing students to communicate with project maintainers and
     other developers.
-  \item[Open Source Process] Understand the open source process, from project
+  \item[Open Source Process] Understand the open source process from project
     creation to management of large projects with many developers.
   \item[Contributing to Open Source] Understand the process of contributing to
-    open source projects as a developers.
+    open source projects as a developer.
 \end{description}
 
 \subsection{Schedule}
@@ -221,23 +219,33 @@ areas:
 \end{description}
 
 \section{Conclusion}
-To summarize, CS451 Building Open Source Software is a class focused on teaching
-students about the tools and processes used in open source and free software
-projects.  Students would be able to work with large real-world software,
-something they wouldn't otherwise be able to do.  Students will learn about the
-latest technologies as they pertain to software development.  Students will have
-useful open source experience that modern employers are seeking.  For the
-reasons outlined above, CS451 Building Open Source Software should be added to
-the E-Campus curriculum.
+To summarize, CS451, Building Open Source Software, is a class focused on
+teaching students about the tools and processes used in open source and free
+software projects.  Students will be able to work with large real-world
+software, something they wouldn't otherwise be able to do.  Students will learn
+about the latest technologies as they pertain to software development.  Students
+will have open source experience that modern employers are seeking.  For the
+reasons outlined above, CS451 should be added to the E-Campus curriculum.
 
-\begin{workscited}
-\addcontentsline{toc}{section}{Works Cited}
+\pagebreak
 
-% http://www.fsf.org/about/what-is-free-software
+\section{References}
 
-% http://careers.mozilla.org/en-US/position/ozWfXfwr
+\begin{enumerate}
+  % FSF
+  \item \url{http://www.fsf.org/about/what-is-free-software}
 
-% https://www.google.com/about/jobs/search/#!t=jo&jid=29119&
+  % Mozilla
+  \item \url{http://careers.mozilla.org/en-US/position/ozWfXfwr}
 
-\end{workscited}
+  % Google
+  \item \url{https://www.google.com/about/jobs/search/#!t=jo&jid=29119&}
+
+  % CS362
+  \item \url{http://bsgstage10.bus.oregonstate.edu/}
+
+  % Haskell Report
+  \item \url{http://www.haskell.org/communities/11-2012/report.pdf}
+\end{enumerate}
+
 \end{document}
