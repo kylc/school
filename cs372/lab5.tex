@@ -1,0 +1,79 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage{hyperref}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Lab 5} \\}
+
+\begin{enumerate}
+  \item The two access points sending the most beacon frames have the SSIDs
+    \texttt{30 Munroe St} and \texttt{linksys12}.
+
+  \item \texttt{30 Munroe St} rebroadcasts at 0.102400 second intervals.
+    \texttt{linksys12} rebroadcasts at the same rate.
+
+  \item The source MAC address for beacon frames from the \texttt{30 Munroe
+    St} AP is \texttt{00:16:b6:f7:1d:51}.
+
+  \item The destination MAC address for beacon frames from the \texttt{30 Munroe
+    St} AP is the broadcast address, \texttt{ff:ff:ff:ff:ff:ff}.
+
+  \item The MAC BSS ID is the same as the source MAC address for this AP:
+    \texttt{30 Munroe St}.
+
+  \item The AP claims it supports the following data rates: 1Mbit/s, 2Mbit/s,
+    5.5Mbit/s, 11Mbit/s.  It also claims to support the following extended data
+    rates: 6Mbit/s, 9Mbit/s, 12Mbit/s, 18Mbit/s, 24Mbit/s, 36Mbit/s, 48Mbit/s,
+    and 56Mbit/s.
+
+  \item The BSS ID, which is the access point, is \texttt{00:16:b6:f7:1d:51}.
+    The source address, the wireless host, is \texttt{00:13:02:d1:b6:4f}.  The
+    destination address, the first-hop router, it \texttt{00:16:b6:f4:eb:a8}.
+    The source IP address is \texttt{192.168.1.109}, and the destination IP
+    address is \texttt{128.119.245.12}.  This destination IP address does not
+    correspond to any hardware address, because it is not within the local
+    subnet.
+
+  \item In the next \texttt{SYNACK}, the destination and source MAC address are
+    swapped from the previous \texttt{SYN} request.  Now, the wireless host is
+    the destination and the first-hop router is the source.  The AP is still the
+    BSS ID.  Again, the sender MAC address does not correspond to the source IP
+    address, as the two hosts are not on the same local subnet.
+
+  \item To disassociate, the wireless host first sends a DHCP release request to
+    the AP, followed by an 802.11 Deauthentication frame.  From the 802.11
+    specification, one would expect to see a Disassociation frame following the
+    Deauthentication frame, but it was not sent by this wireless host.
+
+  \item In about 4 seconds, the wireless host sends 15 802.11 Authentication
+    frames to the AP.
+
+  \item The host is attempting to use the Open System authentication algorithm,
+    which does not require a key.
+
+  \item The AP never replies to the wireless host's authentication requests.
+
+  \item The wireless host tries to authenticate with the new AP at $t=63.16$s
+    and receives a reply within one thousandth of a second.
+
+  \item The 802.11 Association Request frame is made at $t=63.16$s.  The
+    associated response is at $t=63.19$s.
+
+  \item Thoe host is willing to transmit at 1Mbit/s, 2Mbit/s, 5.5Mbit/s,
+    11Mbit/s, 6Mbit/s, 9Mbit/s, 12Mbit/s, and 18Mbit/s.  It can also support
+    24Mbit/s, 36Mbit/s, 48Mbit/s, and 54Mbit/s.  The AP supports 1Mbit/s, 2Mbit/s, 5.5Mbit/s,
+    and 11Mbit/s, as well as 6Mbit/s, 9Mbit/s, 12Mbit/s, 18Mbit/s, 24Mbit/s,
+    36Mbit/s, 48Mbit/s, and 54Mbit/s.
+
+  \item 802.11 Probe frames are sent when a host requests information about
+    another host.  Responses contain capability information, including data
+    rates.
+
+\end{enumerate}
+\end{document}
