@@ -1,0 +1,88 @@
+\documentclass[11pt]{article}
+
+\usepackage[top=1in,right=1in,left=1in,bottom=1in]{geometry}
+\usepackage[fleqn]{amsmath}
+
+\begin{document}
+
+\begin{flushright}
+  Kyle Cesare
+\end{flushright}
+
+{\center \textbf{Assignment 5} \\}
+
+\begin{itemize}
+  \item[1.]
+    \begin{align*}
+      d_1 &= (-1, -1, -1, 1, -1, 1, 1, 1) \\
+      d_0 &= (1, 1, 1, -1, 1, -1, -1, -1)
+    \end{align*}
+
+  \item[2.]
+    \begin{align*}
+      d^2_1 &= (1, -1, 1, 1, 1, -1, 1, 1) \\
+      d^2_0 &= (1, -1, 1, 1, 1, -1, 1, 1)
+    \end{align*}
+
+  \item[3.]
+    \begin{align*}
+      d^2_1 &= \frac{1}{8} \times (0, -2, 0, 2, 0, 0, 2, 2)
+        \cdot (1, -1, 1, 1, 1, -1, 1, 1) \\
+            &= \frac{1}{8} \times 8 \\
+            &= 1 \\
+      d^2_0 &= \frac{1}{8} \times (2, 0, 2, 0, 2, -2, 0, 0)
+        \cdot (1, -1, 1, 1, 1, -1, 1, 1) \\
+            &= \frac{1}{8} \times 8 \\
+            &= 1
+    \end{align*}
+
+  \item[4.] Any two codes must be orthogonal to allow a receiver to decode both
+    signals.  An example of two 8-bit vectors that are not orthogonal are:
+    \begin{align*}
+      c_1 &= (1, -1, 1, 1, 1, -1, 1, 1) \\
+      c_2 &= (1, -1, 1, 1, 1, -1, 1, -1)
+    \end{align*}
+
+  \item[8.]
+    \begin{itemize}
+      \item[a.] The maximum throughput from A to C is 1 message per 2 slots.
+      \item[b.] The combined maximum throughput is 2 messages per slot.
+      \item[c.] The combined maximum throughput is still only 1 message per
+        slot, because C cannot send while B is trying to receive from A.
+      \item[d.]
+        \begin{itemize}
+          \item[a.] 1 message per slot
+          \item[b.] 2 messages per slot
+          \item[c.] 2 messages per slot
+        \end{itemize}
+      \item[e.] 
+        \begin{itemize}
+          \item[a.] 1 message per 4 slots
+          \item[b.] 2 messages per 3 slots
+          \item[c.] 2 messages per 3 slots
+        \end{itemize}
+    \end{itemize}
+
+  \item[10.]
+    \begin{itemize}
+      \item[a.] The base station can achieve 10Mbps if it chooses to only
+        transmit to A.  This is not fair, because all nodes are not given an
+        equal share of resources.
+      \item[b.] To transmit an equal amount of data, the following must be
+        satisfied, where $A$ is the throughput.
+        \[ \forall i, j: A_in_it = A_jn_jt \]
+        The total number of slots must equal all the slots available.
+        \[ \sum_{k=1}^n A_kn_kt = N \]
+        To find the total throughput:
+        \[ R = \frac{\sum_{k=1}^4 A_kn_kt}{tN} = 2.35Mbps \]
+      \item[c.] Do the same as above, but now let
+        \begin{align*}
+          n_2 &= n_1 \\
+          n_3 &= 2n_1 \\
+          n_4 &= 5n_1
+        \end{align*}
+        Therefore
+        \[ R = 2.78Mbps \]
+    \end{itemize}
+\end{itemize}
+\end{document}
