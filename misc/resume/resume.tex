@@ -1,0 +1,236 @@
+\documentclass[10pt]{article}
+
+\usepackage{marvosym}
+\usepackage{fontspec}
+\usepackage{xunicode,xltxtra,url,parskip}
+\defaultfontfeatures{Scale=MatchLowercase,Mapping=tex-text}
+\RequirePackage{color,graphics}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[left=1in, right=1in, top=0.5in, bottom=0.5in]{geometry}
+\usepackage{supertabular}
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{xstring}
+\usepackage{ifthen}
+\usepackage{enumitem}
+\usepackage[xetex,
+            unicode,
+            pdfencoding=auto,
+            pdfinfo={
+              Title={kcesare/resume},
+              Author={Kyle Cesare},
+              Subject={Kyle Cesare Résumé},
+              Keywords={computer vision, image processing, artificial intelligence, pattern recognition, machine learning, data science, functional programming, web development},
+              Producer={xelatex},
+              Creator{xelatex}
+            },
+            ]{hyperref}
+\usepackage[absolute]{textpos}
+\usepackage{enumitem}
+\usepackage{tabularx}
+
+\include{functions}
+\titlespacing{\section}{0pt}{-2pt}{0pt}
+
+\begin{document}
+\pagestyle{empty}
+% \font\fb=''[cmr10]''
+
+\par{\centering {\Huge Kyle Cesare }\bigskip\par}
+
+\begin{multicols}{2}
+\setlength{\parskip}{0pt}
+\section{Biographical}
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+  \textsc{Address}     & 529 NW 17\textsuperscript{th} St \\
+                       & Corvallis, Oregon 97330 \\
+  \textsc{Phone}       & 208-409-6177\\
+\end{tabularx}
+
+\vfill
+\columnbreak
+
+\section{Online}
+\begin{tabularx}{\linewidth}{@{}l X@{}}
+  \textsc{email}       & \href{mailto:kcesare@gmail.com}{kcesare@gmail.com} \\
+  \textsc{github}      & \href{http://www.github.com/kylc}{github.com/kylc}\\
+\end{tabularx}
+
+\end{multicols}
+
+
+\begin{tabularx}{\textwidth}{@{}l X}
+  \textsc{Interests} & computer vision, machine learning, artificial
+  intelligence, functional programming, programming languages, robotics
+\end{tabularx}
+
+\newcommand{\degree}[4]{\textsc{#1} & \textbf{#2} & \textsc{#3} & \textbf{#4}\\}
+
+\section{Education}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}r l p{5.5cm} r}
+
+  \degree{Expected June 2015}
+  {B.S.}
+  {Computer Science (GPA: 3.88)}
+  {Oregon State University}
+
+\end{tabular*}
+
+\newcommand{\experience}[5]{
+\textsc{#1} & \textbf{#2} #3 \textsc{#4}\\
+\nopagebreak &\multicolumn{2}{p{5.5in}}{\small{#5}}\\
+\nopagebreak \multicolumn{3}{c}{} \\ [-1ex]
+}
+
+\newcommand{\experiencel}[5]{
+\textsc{#1} & \textbf{#2} #3 \textsc{#4}\\
+\nopagebreak &\multicolumn{2}{p{5.5in}}{\small{#5}}\\
+}
+
+\section{Experience}
+
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\vspace{-0.5em}
+\begin{longtable}{@{\extracolsep{\fill}} l | l r}
+
+  \experience{2013}
+  {Quality Assurance Engineer}
+  {at}
+  {\href{http://www.suprasystems.com}{Supra}}
+  {Built automated testing suites for web applications using \skill{Ruby}.
+   Overhauled existing testing stack to use \skill{RSpec}.  Built a web-based
+   test runner using \skill{Ruby} and \skill{Sinatra}, with \skill{jQuery} on the
+   front-end.}
+
+  \experience{2012---Present}
+  {Programmer}
+  {at}
+  {\href{http://www.aerialroboticscompetition.org/2013SymposiumPapers/OregonState.pdf}{OSU Aerial Robotics Team}}
+  {Worked with other club members to build a fully autonomous quadrotor for
+  competition in the International Aerial Robotics Competition.  Worked with
+  \skill{Python} and \skill{NumPy/SciPy} to build autonomous 3D navigation
+  systems.  Programmed real-time flight control microcontrollers in \skill{C}.}
+
+  \experience{2011---2012}
+  {Developer}
+  {at}
+  {\href{http://r2dm.com}{R$^{2}$DM}}
+  {Lead a team to build an educational game for Comcast using \skill{Unity3D},
+   \skill{JavaScript}, and \skill{C\#}.  Built instructive animations for comast
+   with \skill{Adobe Flash} and \skill{Adobe Captivate}.  Created interactive
+   simulations with \skill{ActionScript} and \skill{Adobe Flash}.}
+
+  \experience{2011---2012}
+  {Student}
+  {in the}
+  {Intel Open Source Learning Company}
+  {Worked in a group of select students looking to go beyond the pre-EECS
+  requirements and solve real world problems. Designed and implemented a project
+  to use a Genetic Algorithm to find optimal physical structure designs.  Worked
+  with \skill{Git}, \skill{C\#}, \skill{HTML5}, \skill{JavaScript}, and
+  \skill{Genetic Algorithms}.}
+
+  \experience{2010}
+  {Student}
+  {in the}
+  {Google Code-in}
+  {Worked on Oregon State University's Ganeti Web Manager, a server cluster
+  management tool.  Gained knowledge on remote collaboration and working
+  independently.  Worked with \skill{Python} and \skill{Django}.}
+
+\end{longtable}
+
+\newcommand{\skills}[2]{
+  \item #2 #1
+}
+\vspace{-0.5em}
+\section{Skills \& Languages}
+\vspace{-1em}
+\begin{multicols}{4}
+\raggedcolumns
+\begin{itemize}
+\renewcommand{\labelitemi}{}
+\renewcommand{\skill}{\textnormal}
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+
+\skills{Git}{\twoskill}
+\skills{GNU/\linux}{\twoskill}
+\skills{\haskell}{\oneskill}
+\skills{\html}{\threeskill}
+\skills{\java}{\threeskill}
+\skills{\js}{\twoskill}
+\skills{C}{\twoskill}
+\skills{\LaTeX}{\oneskill}
+\skills{\numpy/\scipy}{\twoskill}
+\skills{\python}{\twoskill}
+\skills{Ruby}{\threeskill}
+\skills{\sql}{\twoskill}
+
+\end{itemize}
+
+\end{multicols}
+\vspace{-1em}
+  \begin{footnotesize}
+    \oneskill Small-scale projects and/or assignments \hfill 
+    \twoskill Multiple projects and/or experience teaching \hfill
+    \threeskill Large-scale and/or multi-group projects
+  \end{footnotesize}
+
+\newcommand{\proj}[3]{
+  \textsc{#1} & #2\\
+   &\href{http://www.#3}{#3}\\
+   \multicolumn{2}{c}{} \\ [-1ex]
+}
+
+\newcommand{\projl}[3]{
+  \textsc{#1} & #2\\
+   &\href{http://www.#3}{#3}\\
+}
+
+\newcommand{\projlh}[4]{
+  \textsc{#1} & #2\\
+   &\href{#3}{#4}\\
+}
+\section{Selected Personal Projects}
+\begin{tabularx}{\textwidth}{@{}p{3cm}|X@{}}
+
+  \proj{robot\_nav}
+  {2D robotic navigation system for unknown environments.  Built for the Oregon
+  State University Robotics Club's Aerial Team.  Uses \skill{Python},
+  \skill{NumPy}, \skill{SciPy}.}
+  {github.com/kylc/robot\_nav}
+
+  \proj{fpga\_stereo\_vision}
+  {A real-time stereo vision system designed for implementation on a
+  field-programmable gate array.  Written entirely in \skill{C}.}
+  {github.com/kylc/fpga\_stereo\_vision}
+
+\end{tabularx}
+
+\section{Honors/Awards}
+\begin{tabularx}{\textwidth}{@{}r|X l|l@{}}
+2013 & Andy Aitkenhead Scholarship &
+2011 & OSU Provost Scholarship \\
+
+2013 & JJ Cardiz Scholarship &
+2011 & OSU Tuition Grant Scholarship \\
+
+2012 & McDougall Scholarship &
+2011 & OSU Engineering Dean's Scholarship \\
+
+2012 & Tupling Scholarship &
+     & \\
+\end{tabularx}
+
+%%\XeTeXpdffile ''resume.pdf'' page 1 scaled 800
+
+% \vspace{0.2em}
+% 
+% References available upon request.
+
+\end{document}
