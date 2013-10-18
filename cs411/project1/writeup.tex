@@ -1,0 +1,108 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+{\center\textbf{Project 1 Write-up} \\}
+
+\begin{enumerate}
+
+\item The objective of this assignment is to get familiar with our groups, set
+  up our development environments, and get a cursory overview of kernel
+  development.  This is facilitated through implementing two schedulers for the
+  kernel: first-in-first-out and round-robin.
+
+\item For this project, we had to implement two scheduling algorithms for the
+  Linux 3.0.4 Kernel: round-robin scheduling and first-in-first-out scheduling.
+
+  As an overview, the FIFO algorithm places no timing constraints on a process,
+  allowing it to run indefinitely or until it yields or blocks.  When this
+  happens, it allows the next process, ordered by priority, to run.  The
+  round-robin scheduler does exactly the same, except it enforces a timeslice.
+  If a program exhausts its timeslice before yielding or blocking, then the
+  kernel preempts it and runs the next process.  Development is greatly
+  simplified by realizing that the two algorithms are almost identical, the only
+  difference being the addition timeslices in round-robin scheduling.  This
+  means that they can both share a large amount of code.
+
+\item To test our solution, we wrote a quick test application, attached to the
+  bottom of this document.  The application uses \texttt{sched\_setscheduler} to
+  tell the scheduler to treat it as either \texttt{SCHED\_FIFO} or
+  \texttt{SCHED\_RR}.  The application has to run a CPU-bound task, so as to not
+  block and be preempted by another task.  We chose to calculate a Fibonacci
+  sequence.  We then observed the results of running the application.  In the
+  \texttt{SCHED\_FIFO} mode we expected the entire operating system to stop
+  responding during the run, as the processor would never be yielded.  In the
+  \texttt{SCHED\_RR} setting, we expected more of an impact to overall system
+  interactivity than with the default scheduler, but it would not lock up as
+  with \texttt{SCHED\_FIFO}.
+
+  Note that we had to ensure the virtual machine on which we were testing was
+  restricted to only a single core.  Otherwise, the machine would still be able
+  to run additional processes on other cores, and we may not lose interactivity
+  as we were expecting.
+
+\item This assignment was a great opportunity to explore the kernel's code
+  structure at a high level.  Seeing how code was organized between device
+  drivers, architecture-dependent code, kernel operations, etc. makes it
+  immediately obvious how large an undertaking the kernel project is.  After
+  delving into some of the source code, it was amazing to see some of the
+  extremes to which the developers go to eek out the last bits of performance,
+  using compiler hints (through macros) like \texttt{likely} and
+  \texttt{unlikely} in conditionals, along with the pervasive use of function
+  inlining.  Potentially the most helpful thing was just having everyone get a
+  feel for the basics of kernel development workflow.  This involved SVN,
+  building the kernel, installing the kernel, and booting the new kernel.
+
+\newpage
+
+\begin{verbatim}
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sched.h>
+
+#define MAX 100000000000
+
+/* Modified from:
+ * http://www.zacharyfox.com/blog/fibonacci-project/fibonacci-in-c
+ */
+int fibonacci(int n)
+{
+        int a = 0;
+        int b = 1;
+        int sum;
+        int i;
+
+        for (i = 0; i < n; i++) {
+                sum = a + b;
+                a = b;
+                b = sum;
+        }
+
+        return 0;
+}
+
+int main(void)
+{
+        pid_t pid = getpid();
+
+        struct sched_param param;
+        param.sched_priority = 1;
+
+        // int err = sched_setscheduler(pid, SCHED_FIFO, &param);
+        int err = sched_setscheduler(pid, SCHED_RR, &param);
+        printf("Error: %d\n", err);
+
+        int f = fibonacci(MAX);
+        printf("Fib: %d\n", f);
+
+        return 0;
+}
+\end{verbatim}
+
+\end{enumerate}
+\end{document}
