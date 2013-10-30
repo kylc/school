@@ -1,0 +1,51 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+{\center\textbf{Project 2 Write-up} \\}
+
+\begin{enumerate}
+
+\item The objective of this assignment is to become more familiar with both
+  general kernel development strategies and procedures along with, specifically,
+  gaining a better understanding of how Linux I/O schedulers are written.  As
+  the previous assignment didn't involve writing any code by hand, this was my
+  first exposure to writing kernel code.
+  
+\item For this project, we had to implement a new I/O scheduler for the Linux
+  3.0.4 Kernel.  I approached this problem by first ensuring I had a good
+  overview of Linux I/O scheduling by reading the chapters from \textit{Linux
+  Kernel Development}.  I then dove into specific implementation details by
+  reading through the source code of the CFQ, the deadline scheduler, and the
+  NOOP scheduler.
+
+  We based our design off of the NOOP scheduler, only changing the order in
+  which requests were dispatched.  Upon dispatch, we first scan the queue
+  looking for requests ahead of the previous request in the current direction.
+  If there are any, we choose the closest one by sector count.  If there are
+  none in the current direction, we scan in the opposite direction and, again,
+  choose the closest.
+  
+  While this is an $O(n)$ operation and could probably be made more
+  efficient, no performance constraints were placed on the assignment so we went
+  with the simplest implementation.
+
+\item To test our solution, we used the kernel's built-in \texttt{printk}
+  function to print sector numbers along with the current elevator direction as
+  we were dispatching requests.  We could then check the output of
+  \texttt{dmesg} and verify that requests were being dispatched in the correct
+  order.
+
+\item Through this assignment, I gained a much better understanding of the
+  kernel's build system.  In order to add an additional file we had to edit a
+  sub-\texttt{Makefile} and add configuration options to the \texttt{Kconfig}.
+  I was also able to play around with the \texttt{/sys} file system when setting
+  the scheduler dynamically, and was able to see some of the other uses of the
+  file system.
+
+\end{enumerate}
+\end{document}

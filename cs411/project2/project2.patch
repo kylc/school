@@ -1,0 +1,239 @@
+diff -rupN linux/block/Kconfig.iosched cs411-group1-proj2/block/Kconfig.iosched
+--- linux/block/Kconfig.iosched	2012-10-08 07:32:26.228555000 -0700
++++ cs411-group1-proj2/block/Kconfig.iosched	2013-10-27 16:48:57.495050100 -0700
+@@ -36,6 +36,12 @@ config IOSCHED_CFQ
+ 
+ 	  Note: If BLK_CGROUP=m, then CFQ can be built only as module.
+ 
++config IOSCHED_SSTF
++	bool
++	default y
++	---help---
++          Shortest seek time first.
++
+ config CFQ_GROUP_IOSCHED
+ 	bool "CFQ Group Scheduling support"
+ 	depends on IOSCHED_CFQ && BLK_CGROUP
+diff -rupN linux/block/Makefile cs411-group1-proj2/block/Makefile
+--- linux/block/Makefile	2012-10-08 07:32:26.228555000 -0700
++++ cs411-group1-proj2/block/Makefile	2013-10-27 16:48:57.453026600 -0700
+@@ -13,6 +13,7 @@ obj-$(CONFIG_BLK_DEV_THROTTLING)	+= blk-
+ obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
+ obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
+ obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
++obj-$(CONFIG_IOSCHED_SSTF)	+= sstf-iosched.o
+ 
+ obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
+ obj-$(CONFIG_BLK_DEV_INTEGRITY)	+= blk-integrity.o
+diff -rupN linux/block/sstf-iosched.c cs411-group1-proj2/block/sstf-iosched.c
+--- linux/block/sstf-iosched.c	1969-12-31 16:00:00.000000000 -0800
++++ cs411-group1-proj2/block/sstf-iosched.c	2013-10-29 19:24:12.201732200 -0700
+@@ -0,0 +1,208 @@
++/*
++ * elevator sstf
++ */
++#include <linux/blkdev.h>
++#include <linux/elevator.h>
++#include <linux/bio.h>
++#include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/init.h>
++
++#define HEAD_DOWN 0
++#define HEAD_UP  1
++
++struct sstf_data {
++	struct list_head queue;
++
++	/* The last sector we dispatched.  We want to choose the next request
++	 * based on its distance from this sector.
++	 */
++	sector_t last_sector;
++
++
++	/* The current direction of the disk head. */
++	unsigned int direction;
++};
++
++static void sstf_merged_requests(struct request_queue *q, struct request *rq,
++				 struct request *next)
++{
++	list_del_init(&next->queuelist);
++}
++
++static int sstf_dispatch(struct request_queue *q, int force)
++{
++	struct sstf_data *nd = q->elevator->elevator_data;
++
++	if (!list_empty(&nd->queue)) {
++		/* The nearest sector in the up direction. */
++		struct list_head *closest_up_head = NULL;
++		struct request *closest_up_rq = NULL;
++		sector_t closest_up_diff = UINT_MAX;
++
++		/* The nearest sector in the down direction. */
++		struct list_head *closest_down_head = NULL;
++		struct request *closest_down_rq = NULL;
++		sector_t closest_down_diff = UINT_MAX;
++
++		/* The sector we want to dispatch.  This is either the closest
++		 * in the up or closest in the down, depending on which
++		 * direction the head is currently travelling.
++		 */
++		struct list_head *to_dispatch_head = NULL;
++		struct request *to_dispatch = NULL;
++		sector_t to_dispatch_diff = -1;
++
++		struct list_head *entry = NULL;
++		list_for_each(entry, &nd->queue) {
++			struct request *pos = list_entry_rq(entry);
++
++			sector_t diff;
++			if (blk_rq_pos(pos) > nd->last_sector) {
++				/* Block is above */
++				diff = blk_rq_pos(pos) - nd->last_sector;
++				if (diff < closest_up_diff) {
++					closest_up_head = entry;
++					closest_up_rq = pos;
++					closest_up_diff = diff;
++				}
++                        } else {
++				/* Block is below */
++				diff = nd->last_sector - blk_rq_pos(pos);
++				if (diff < closest_down_diff) {
++					closest_down_head = entry;
++					closest_down_rq = pos;
++					closest_down_diff = diff;
++				}
++                        }
++		}
++
++		/* Choose either the closest in the up or the closest in the
++		 * down, depending on the current direction.
++		 */
++		if (nd->direction == HEAD_UP) {
++			if (closest_up_rq) {
++				to_dispatch_head = closest_up_head;
++				to_dispatch = closest_up_rq;
++				to_dispatch_diff = closest_up_diff;
++			} else {
++				to_dispatch_head = closest_down_head;
++				to_dispatch = closest_down_rq;
++				to_dispatch_diff = closest_down_diff;
++
++				printk("sstf: switching to HEAD_DOWN\n");
++				nd->direction = HEAD_DOWN;
++			}
++		} else {
++			if (closest_down_rq) {
++				to_dispatch_head = closest_down_head;
++				to_dispatch = closest_down_rq;
++				to_dispatch_diff = closest_down_diff;
++			} else {
++				to_dispatch_head = closest_up_head;
++				to_dispatch = closest_up_rq;
++				to_dispatch_diff = closest_up_diff;
++
++				printk("sstf: switching to HEAD_UP\n");
++				nd->direction = HEAD_UP;
++			}
++		}
++
++		if (to_dispatch) {
++			__list_del_entry(to_dispatch_head);
++			elv_dispatch_add_tail(q, to_dispatch);
++
++			nd->last_sector = blk_rq_pos(to_dispatch);
++
++			printk("sstf: dispatching %lu moving %d\n",
++                               (long)nd->last_sector, (int)nd->direction);
++		}
++
++		return 1;
++	}
++	return 0;
++}
++
++static void sstf_add_request(struct request_queue *q, struct request *rq)
++{
++	struct sstf_data *nd = q->elevator->elevator_data;
++
++	list_add_tail(&rq->queuelist, &nd->queue);
++}
++
++static struct request *
++sstf_former_request(struct request_queue *q, struct request *rq)
++{
++	struct sstf_data *nd = q->elevator->elevator_data;
++
++	if (rq->queuelist.prev == &nd->queue)
++		return NULL;
++	return list_entry(rq->queuelist.prev, struct request, queuelist);
++}
++
++static struct request *
++sstf_latter_request(struct request_queue *q, struct request *rq)
++{
++	struct sstf_data *nd = q->elevator->elevator_data;
++
++	if (rq->queuelist.next == &nd->queue)
++		return NULL;
++	return list_entry(rq->queuelist.next, struct request, queuelist);
++}
++
++static void *sstf_init_queue(struct request_queue *q)
++{
++	struct sstf_data *nd;
++
++	nd = kmalloc_node(sizeof(*nd), GFP_KERNEL, q->node);
++	if (!nd)
++		return NULL;
++	INIT_LIST_HEAD(&nd->queue);
++
++	nd->direction = HEAD_UP;
++	nd->last_sector = 0;
++
++	return nd;
++}
++
++static void sstf_exit_queue(struct elevator_queue *e)
++{
++	struct sstf_data *nd = e->elevator_data;
++
++	BUG_ON(!list_empty(&nd->queue));
++	kfree(nd);
++}
++
++static struct elevator_type elevator_sstf = {
++	.ops = {
++		.elevator_merge_req_fn		= sstf_merged_requests,
++		.elevator_dispatch_fn		= sstf_dispatch,
++		.elevator_add_req_fn		= sstf_add_request,
++		.elevator_former_req_fn		= sstf_former_request,
++		.elevator_latter_req_fn		= sstf_latter_request,
++		.elevator_init_fn		= sstf_init_queue,
++		.elevator_exit_fn		= sstf_exit_queue,
++	},
++	.elevator_name = "sstf",
++	.elevator_owner = THIS_MODULE,
++};
++
++static int __init sstf_init(void)
++{
++	elv_register(&elevator_sstf);
++
++	return 0;
++}
++
++static void __exit sstf_exit(void)
++{
++	elv_unregister(&elevator_sstf);
++}
++
++module_init(sstf_init);
++module_exit(sstf_exit);
++
++
++MODULE_AUTHOR("Group 1");
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("SSTF IO scheduler");
