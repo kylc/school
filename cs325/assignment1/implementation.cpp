@@ -80,21 +80,14 @@ int merge_and_count(std::vector<int> numbers) {
 
 int main(int argc, char **argv) {
   /*
-  std::vector<std::vector<int>> lines = read_numbers("verify.txt");
+  std::vector<std::vector<int>> lines = read_numbers("test_in.txt");
 
   for(size_t i = 0; i < lines.size(); i++) {
     std::vector<int> all_numbers = lines[i];
 
-    int expected = all_numbers.back();
-    std::vector<int> not_all_numbers(all_numbers.begin(), all_numbers.end() - 1);
-
-    int result = count_inversions(not_all_numbers);
+    int result = merge_and_count(all_numbers);
     
-    if(expected == result) {
-      std::cout << "pass" << std::endl;
-    } else {
-      std::cout << "fail" << std::endl;
-    }
+    std::cout << result << std::endl;
   }
   */
 
