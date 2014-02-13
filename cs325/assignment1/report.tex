@@ -1,0 +1,169 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+
+\begin{document}
+
+\begin{flushright}
+Kyle Cesare \\
+Kevin Hess \\
+Bryce Holley
+\end{flushright}
+
+{\center\textbf{Programming Assignment 1} \\}
+
+\section{Pseudo-code}
+
+\subsection{Brute-Force}
+
+\begin{verbatim}
+  for each element i in A:
+      for each element j (starting with element i+1) in A:
+          if A[i] > A[j]:
+              inversions++
+\end{verbatim}
+
+\subsection{Naive Divide and Conquer}
+
+\begin{verbatim}
+  count_inversions(array A):
+      if A.size is not even, insert 0 at beginning of A
+      
+      if A.size == 2:
+          if A[1] > A[0]:
+              return 1
+          else:
+              return 0
+      
+      array L = left half of A
+      array R = right half of A
+      
+      for each element i in array L:
+          for each element j in array R:
+              if L[i] > R[j]:
+                  inversion++
+      
+      return inversions + count_inversions(L) + count_inversions(R)
+\end{verbatim}
+
+\subsection{Merge and Count}
+    
+\begin{verbatim}
+  count_inversions(array A):
+      if A.size is not even, insert 0 at beginning of A
+      
+      if A.size == 2:
+          if A[1] > A[0]:
+              return 1
+          else:
+              return 0
+      
+      array LS = left half of A
+      array RS = right half of A
+      LS.sort
+      RS.sort
+      
+      for each element i in RS:
+          for each element j in LS:
+              if LS[i] > RS[j]:
+                  inversions += LS.size - i
+                  break
+      
+      return inversions + count_inversions(L) + count_inversions(R)
+\end{verbatim}
+
+\section{Correctness Proof}
+\subsection{Naive Divide and Conquer}
+\begin{description}
+  \item[Base Case] $n=2$ and $S = \{a, b\}$. If $a < b$, return $0$. If $b < a$,
+    return $1$.
+  \item[Inductive Hypothesis] Assume that for all inputs of size $2, 3,
+    ... , n-1$ the algorithm returns the correct number of inversions.
+  \item[Inductive Step] The algorithm iteratively compares every element of the
+    right array with every element of the left array. Assume, for contradiction,
+    that there is an inversion not counted by the algorithm such that $l_i >
+    r_j$ where $l_i \in L$ and $r_j \in R$. This is a contradiction to the
+    definition of our algorithm, because by the iteration of the two sets, this
+    inversion would have been counted. The number of inversions is then the
+    inversions found by iteration plus the inversions in the left array and the
+    right array, by the Inductive Hypothesis.
+\end{description}
+
+\subsection{Merge and Count}
+\begin{description}
+  \item[Base Case] $n=2$ and $S = \{a, b\}$. If $a < b$, return $0$. If $b < a$,
+    return $1$.
+  \item[Inductive Hypothesis] Assume that for all inputs of size $2, 3,
+    ... , n-1$ the algorithm returns the correct number of inversions.
+  \item[Inductive Step] The left and right arrays are first sorted. For each
+    element in the right array (index $j$), the algorithm iterates over every
+    element in the left array (index $i$). It loops until $l_i > r_j$. At
+    this point, because the arrays are sorted, there are $n = length(l) - i$
+    elements remaining in the left array, of which every one is greater than
+    $r_j$. Therefore, there are $n$ inversions for $r_j$.
+
+    Assume, for contradiction, that there is an inversion $\{l_i, r_j\}$ that
+    was not counted. By the definition of our algorithm, some element $l_{i-k} <
+    r_j$ would have been found. Then, the remaining $n = length(l) - (i - k)$
+    elements would have been counted as inversions. This is a contradiction to
+    the assumption that $l_i$ was not marked.
+\end{description}
+
+\section{Analysis of Runtime}
+\subsection{Brute Force}
+\begin{align*}
+  T(n) &= \sum_{i=0}^{n} i * c \\
+       &= c \sum_{i=0}^{n} i \\
+       &= \frac{cn(n+1)}{2} \\
+\end{align*}
+
+\subsection{Naive Divide and Conquer}
+\begin{align*}
+  T(n) &= c(\frac{n}{2})(\frac{n}{2}) + T(\frac{n}{2}) + T(\frac{n}{2}) \\
+       &= c(\frac{n}{2})(\frac{n}{2}) + 2T(\frac{n}{2}) \\
+       &= c(\frac{n}{2})(\frac{n}{2}) + 2[c(\frac{n}{4})(\frac{n}{4}) + 2T(\frac{n}{4})] \\
+       &= c(\frac{n}{2})(\frac{n}{2}) + 2[c(\frac{n}{4})(\frac{n}{4}) + 2T[c(\frac{n}{8})(\frac{n}{8}) + 2T(\frac{n}{8})]] \\
+       &= \sum_{i=1}^{\log_2 n} 2^{i-1} c (\frac{n}{2^i})^2 \\
+       &= cn^2 \sum_{i=1}^{\log_2 n} 2^{-i-1} \\
+       &= cn^2 \\
+\end{align*}
+
+\subsection{Merge and Count}
+$S$ is the sort function, and $C$ is the comparison function.
+
+\begin{align*}
+  T(n) &= 2S(\frac{n}{2}) + C(\frac{n}{2}) + 2T(\frac{n}{2}) \\
+       &= 2S(\frac{n}{2}) + C(\frac{n}{2}) + 2[2S\frac{n}{4} + C\frac{n}{4} + 2T\frac{n}{4}] \\
+       &= \sum_{i=1}^{\log n} 2^i S(\frac{n}{2^i}) + 2^{i-1} C(\frac{n}{2^i}) \\
+  S(n) &= n \log n , C(n) = 2n \\
+  T(n) &= n(\log^2 n + \frac{\log n \log (n + 1)}{2} + \log n) \\
+\end{align*}
+
+\section{Testing}
+Our algorithm found the following number of inversions for each line in the test
+file: 252180, 250488, 243785, 247021, 250925, 256485, 249876, 253356, 255204,
+247071.
+
+\section{Extrapolation and Interpolation}
+
+\begin{align*}
+  \frac{n_1 \log n_1}{t_1} &= \frac{n_2 \log n_2}{t_2} \\
+  n_2 \log n_2 &= \frac{t_2 n_1 \log n_1}{t_1}
+\end{align*}
+
+If $t_2 = 1 \text{ hour} = 3600 \text{ seconds}$, $t_1 = 10 \text{ seconds}$,
+and $n_1$ = $10^5$, then $n_2 = 4.1 \times 10^8$.
+
+Our log-log plot is roughly linear, which agrees with our asymptotic runtime.
+We measured the slope to be roughly $m = 1.6$. Any discrepancy between this
+result and our asymptotic runtime analysis are probably due to the program being
+run on top of an operating system, in which it could be context switched at any
+moment.
+
+\includegraphics[width=\linewidth]{plot}
+
+\end{document}
