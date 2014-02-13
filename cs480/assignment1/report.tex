@@ -1,0 +1,48 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Milestone 1 Report} \\}
+
+\begin{description}
+
+\item[Specification] The purpose of this milestone is to begin thinking about
+how the translation between infix and postfix syntax trees will work in our
+compilers. It also gave us an introduction to writing Gforth, which will
+obviously be necessary once we target it in our compilers.
+
+\item[Processing] I read through the Gforth manual to gain an understanding of
+the language. I then translated the infix code samples to postfix, and used my
+knowledge of Gforth to translate that to valid programs.
+
+\item[Testing Requirement] This assignment was very easy to test for
+correctness. I was simply able to check that my program compiled and ran in
+Gforth. I also verified the math by hand.
+
+\item[Retrospective] I learned a great deal about how to use Gforth. By the end
+of the assignment, I really had a handle on how stack-based languages work.
+
+\end{description}
+
+\begin{verbatim}
+Node {
+  List<Node> children
+  data
+}
+
+traverse(n) {
+  for i = 0 to size(n.children) {
+    traverse(n[i])
+  }
+
+  print(n)
+}
+\end{verbatim}
+\end{document}
