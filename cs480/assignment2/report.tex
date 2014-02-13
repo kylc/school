@@ -1,0 +1,63 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Milestone 2 Report} \\}
+
+\begin{description}
+
+\item[Specification] The purpose of this milestone is to complete a scanner of
+  the IBTL specifications. This scanner should implement the DFA/NFA concepts we
+  have been learning about over the past few weeks. It should accept string
+  input and output individual lexemes as defined by the IBTL grammar.
+
+\item[Processing] First, I read and familiarized myself with the IBTL grammar. I
+  then created my DFAs for each of the terminals. I chose to make a DFA for each
+  individual terminal, but combine them to create an NFA. I would then design
+  the compiler to push input back to the stream if it chose the incorrect
+  ambiguous transition. While a large DFA might be more efficient, I think that
+  the performance impact would be minimal for reasonable input files. Also,
+  splitting the code into multiple FSAs allows for a more structured compiler
+  design.
+
+  I then moved on to implementation. I chose to write my compiler in C++ because
+  I have been wanting to learn the language for some time. I chose it over C
+  because I wanted to use object oriented design. I was able to use it in the
+  design of my scanner by having a base \texttt{Token} class, subclassed by each
+  of my token types. Each type defines its own parsing function, which either
+  builds an instance of the given token or rejects the input. If the input is
+  rejected, then the tokenizer tries the next class's parse function, until it
+  finds a token that will accept the input. If it does not find one, then a
+  compiler error is generated.
+
+  Each token's parse function is a hand-written FSA implemented with switch
+  statements. I also experimented with a generic \texttt{StateMachine} object
+  which allows an FSA to be built up, then handles the
+  \texttt{ACCEPT}/\texttt{REJECT}/\texttt{CONTINUE} state handling. In the
+  future, I may convert the existing FSAs to use this utility class.
+
+  Refer to the included design hierarchy for more design details.
+
+\item[Testing Requirement] To test for correctness, I created a sample input
+  file spanning all valid tokens. These tokens did not have to make any sort of
+  syntactical sense, as the tokenizer is not responsible for parsing the input.
+  I also tested my tokenizer on a number of cases where I knew it should fail.
+
+  In the future, it may make sense to design an automated testing system that
+  verifies success and failure on a number of valid and invalid samples.
+
+\item[Retrospective] I learned about the main concepts behind DFAs, NFAs, and
+  how they can be used to accept/reject inputs to build tokenizers. I also
+  learned a great deal about C++. I have had very little experience with it
+  before this project, so I am excited to apply it to a large project.
+
+\end{description}
+
+\end{document}
