@@ -71,7 +71,7 @@
 \section{Education}
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}r l p{5.5cm} r}
 
-  \degree{Expected June 2015}
+  \degree{Expected March 2015}
   {B.S.}
   {Computer Science (GPA: 3.87 / 4.0)}
   {Oregon State University}
@@ -101,16 +101,17 @@
   {at the}
   {\href{http://research.engr.oregonstate.edu/rdml/}{Robotic Decision Making Laboratory}}
   {Researching low-cost solutions to cooperative autonomous exploration and
-  mapping tasks with micro-air vehicles.}
+  mapping tasks with micro-air vehicles. Developing and implementing robot
+  coordination algorithms using \skill{ROS}, \skill{C++}, and \skill{Python}.}
 
   \experience{2013---Present}
   {Team Lead}
   {of the}
   {\href{http://groups.engr.oregonstate.edu/osurc/}{OSU Aerial Robotics Team}}
   {Coordinating team to construct a fully autonomous quadcopter for competition
-  in the International Aerial Robotics Competition.  Working with \skill{Python}
-  and \skill{NumPy/SciPy} to build 3D navigation systems.  Using \skill{C} to
-  program real-time embedded flight controllers.}
+  in the International Aerial Robotics Competition.  Working with \skill{ROS},
+  \skill{Python}, and \skill{NumPy/SciPy} to build 3D navigation systems.  Using
+  \skill{C} to program real-time embedded flight controllers.}
 
   \experience{2013}
   {Quality Assurance Engineer}
@@ -138,14 +139,6 @@
   physical structure designs.  Worked with \skill{Git}, \skill{C\#},
   \skill{HTML5}, \skill{JavaScript}, and \skill{genetic algorithms}.}
 
-  \experience{2010}
-  {Student}
-  {in the}
-  {Google Code-in}
-  {Worked on Oregon State University's Ganeti Web Manager, a server cluster
-  management tool.  Gained knowledge on remote collaboration and working
-  independently.  Worked with \skill{Python} and \skill{Django}.}
-
 \end{longtable}
 
 \newcommand{\proj}[3]{
@@ -163,16 +156,22 @@
   \textsc{#1} & #2\\
    &\href{#3}{#4}\\
 }
-\section{Selected Personal Projects}
-\begin{tabularx}{\textwidth}{@{}p{3cm}|X@{}}
+\section{Selected Projects}
+\begin{tabularx}{\textwidth}{@{}p{4.8cm}|X@{}}
 
-  \proj{robot\_nav}
+  \proj{Mobile Biomarker Detection}
+  {An iPhone application developed for the OSU Chemistry Deptartment built with
+  \skill{Objective-C} and \skill{C++} to produce quantified results of
+  chemically reactive slides.}
+  {github.com/biomarkers}
+
+  \proj{Robot Navigation}
   {2D robotic navigation system for unknown environments.  Built for the Oregon
   State University Robotics Club's Aerial Team.  Uses \skill{Python},
-  \skill{NumPy}, \skill{SciPy}.}
+  \skill{NumPy}, and \skill{SciPy}.}
   {github.com/kylc/robot\_nav}
 
-  \proj{fpga\_stereo\_vision}
+  \proj{FPGA Stereo Vision}
   {A real-time stereo vision system designed for implementation on a
   field-programmable gate array.  Written entirely in \skill{C} to be
   synthesized using high-level synthesis.}
