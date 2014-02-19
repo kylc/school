@@ -15,6 +15,7 @@
 \usepackage{xstring}
 \usepackage{ifthen}
 \usepackage{enumitem}
+\usepackage{hyphenat}
 \usepackage[xetex,
             unicode,
             pdfencoding=auto,
@@ -125,8 +126,8 @@
   \experience{2011---2012}
   {Developer}
   {at}
-  {\href{http://r2dm.com}{R$^{2}$DM}}
-  {Lead a team to build an educational game for Comcast using \skill{Unity3D},
+  {\href{http://r2dm.com}{R2 Digital Media}}
+  {Led a team to build an educational game for Comcast using \skill{Unity3D},
    \skill{JavaScript}, and \skill{C\#}.  Built instructive animations for Comcast
    with \skill{Adobe Flash} and \skill{Adobe Captivate}.  Created interactive
    simulations with \skill{ActionScript} and \skill{Adobe Flash}.}
@@ -142,7 +143,7 @@
 \end{longtable}
 
 \newcommand{\proj}[3]{
-  \textsc{#1} & #2\\
+  \nohyphens{\textsc{#1}} & #2\\
    &\href{http://www.#3}{#3}\\
    \multicolumn{2}{c}{} \\ [-1ex]
 }
@@ -157,9 +158,9 @@
    &\href{#3}{#4}\\
 }
 \section{Selected Projects}
-\begin{tabularx}{\textwidth}{@{}p{4.8cm}|X@{}}
+\begin{tabularx}{\textwidth}{@{}p{2.2cm}|X@{}}
 
-  \proj{Mobile Biomarker Detection}
+  \proj{Mobile Biomarkers}
   {An iPhone application developed for the OSU Chemistry Deptartment built with
   \skill{Objective-C} and \skill{C++} to produce quantified results of
   chemically reactive slides.}
