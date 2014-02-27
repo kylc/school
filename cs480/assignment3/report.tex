@@ -1,0 +1,48 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Milestone 3 Report} \\}
+
+\begin{description}
+
+\item[Specification] The purpose of this milestone is to develop a parser that
+  reads tokens from the tokenizer written in milestone 2 and matches them to
+  productions. It should transform the stream of tokens into a syntax tree.
+
+\item[Processing] My first approach to this problem was to take some example
+  programs and hand-derive them. This gave me an idea of what the recursive
+  descent parser is supposed to do, and allowed me to start to form an
+  algorithm. I then began translating the algorithm into code.
+
+  I had to make some revision to my tokenizer to allow it to be called in the
+  way the parser needs, and to allow for a single peek token. With these
+  changes, however, it was easy to integrate it into the parser.
+
+  The parser starts in the start production, then recursively descends into
+  matching productions based on the peek token. Once it reduces to terminals, it
+  returns a syntax node and the recursion reaches its base. From here, each
+  production is able to form a level in the tree, where its recursive steps are
+  its children.
+  
+\item[Testing Requirement] To test for correctness, I tested the parser on a
+  number of input samples. These included both samples that should and should
+  not parse, along with examples that shouldn't even tokenize, to verify no
+  regressions popped up in this milestone.
+  
+\item[Retrospective] I learned how to take a formal grammar from definition to
+  implementation. I also learned the significance of an LL(1) grammar, and what
+  makes a grammar parsable with only a single lookahead from the tokenizer. I
+  also gained an understanding of how to remove left recursion from a grammar, a
+  necessary step to writing a predictive parser.
+  
+\end{description}
+
+\end{document}
