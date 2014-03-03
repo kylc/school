@@ -1,0 +1,53 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Milestone 4 Report} \\}
+
+\begin{description}
+
+\item[Specification] The purpose of this milestone is to begin implementation on
+  the final stage of our compiler, the code generator. In this milestone, we do
+  not implement loops are variables; we only allow constant expressions.
+  
+\item[Processing] I decided to base the design for the code generator on the
+  object-oriented syntax tree I had already developed. I chose to add an
+  \texttt{emit()} method on each syntax node type (e.g. if, while, print). Then,
+  outputting valid GForth code would simply be a matter of post-order traversing
+  the tree and building the output string.
+
+  The next obstacle was handling int to float upcasting. In arthimetic
+  operations involving both ints and floats, the ints must be moved to the
+  floating point stack before the operation can occur. This is handled in the
+  \texttt{Binop} emit code. It compares the types of the operands, and upcasts to
+  floats if necessary.
+  
+  It is also able to warn if the input contains binops operating on types that
+  don't match up, like if an input tried to compare a string and an int. It does
+  not, however, fail on these inputs as there may be some valid reason for doing
+  such a comparison (e.g. pointer arithmetic).
+  
+\item[Testing Requirement] To test for correctness, I tested the generator on a
+  number of input samples. These included both samples that should and should
+  not generate valid code, along with examples that shouldn't even parse or
+  tokenize, to verify no regressions popped up in this milestone. Examples of
+  programs that should not generate valid code are those that perform invalid
+  operations on types, e.g. \texttt{5 S" Hello" +}. My compiler warns of these,
+  but there is no way to easily correct them.
+  
+\item[Retrospective] This assignment was a culmination of what we have been
+  working towards for the first part of the quarter. It ties together the
+  concepts of the tokenizer and parser by attaching the code generation stage.
+  The code generator also exposes any design flaws made in the design of the
+  parser and the syntax tree.
+  
+\end{description}
+
+\end{document}
