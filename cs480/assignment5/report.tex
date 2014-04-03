@@ -1,0 +1,94 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Milestone 5 Report} \\}
+
+\begin{description}
+
+\item[Specification] This final milestone wraps up the front-end of the
+  compiler. My compiler now supports all syntax and semantics as defined by
+  IBTL. This milestone adds support for \texttt{let}, \texttt{assign} and
+  \texttt{while} statements.
+  
+\item[Processing] Because of my OOP design from last milestone, this milestone
+  was comparatively easy to implement. The main task was simply adding
+  \texttt{let}, \texttt{assign}, and \texttt{varaccess} nodes to my tree.
+  Additionally, I needed to store the variables and their types somewhere.
+
+  My design of the variable map allows for intuitive scoping. Every node in the
+  tree has its own variable map. Let nodes add the variable to their
+  parent's variable map, so as to make the variables available to any other
+  statements at the same level or deeper. When a variable is looked up, it
+  checks the current map, then continues up the tree until the variable is found
+  or the root is reached. In the second case, this means that a variable was not
+  defined and an error is thrown.
+
+  Because of this design, a variable access node simply has to lookup the
+  variable name in its tree, and the hierarchy will automatically be handled.
+  Any variables declared higher in the tree will be found and used, whereas any
+  variables lower in the tree will not be used as it is out of scope.
+
+  My implementation of local variables uses GForth's stack-based locals. These
+  are defined by \texttt{\{ a b c \}}, where each variable pops the value on top
+  of the stack. Therefore, when variables are defined, the compiler first pushes
+  a bunch of default values to the stack. These variables may also have types to
+  specialize their stacks via the \texttt{F: a S: b} syntax.
+
+  For IBTL's while loops, I use GForth's \texttt{BEGIN ... UNTIL} syntax. In
+  this syntax, the top of the stack at the end of each iteration is evaluated to
+  true or false to determine if the loop should continue. Given that IBTL
+  defines a while loop but this is an until loop, the flag must be inverted
+  before evaluation with the \texttt{invert} word.
+
+  In this milestone, I also handled the ambiguous case of the \texttt{-}
+  operator. The compiler no longer tokenizes this with the float/int token.
+  Instead, it always tokenizes it as a binop. Then, when emitted, the compiler
+  checks how many child nodes the operator has. It can then decide if the minus
+  is a binop or a unop, and handles it using either GForth's \texttt{-} or
+  \texttt{negate}.
+
+  To wrap up the design, I've started using Boost Log for output. This allows be
+  to log items at various levels of severity. Then, I can set a filter to
+  declare what minimum severity I want outputted. This makes it very easy to
+  implement the compiler's normal output mode, in which only the resulting
+  GForth code is emitted, and the verbose mode, in which a number of debugging
+  statements are emitted throughout the compilation process.
+
+  A note about warnings and possible errors: If a possible type mismatch is
+  detected, either in binops or variable assignments, a warning is issued. This
+  warning will not be printed unless the compiler is run in verbose mode. This
+  is to avoid a situation where the program is doing something tricky (but
+  correct), causing the compiler to fail outputting any code. To see warnings,
+  run the compiler with the \texttt{-v} option.
+  
+\item[Testing Requirement] To test this milestone, I ran the compiler on a
+  number of inputs and fed the output into GForth directly. Test cases included
+  string concatenation, if statements, basic arithmetic with variables, loops
+  with variables, and a rectangular integration program.
+
+  % TODO: Scoping?
+  
+\item[Retrospective] Now that this compiler project has finished, it is easy to
+  see the connection to the theory learned in class to the application of
+  writing compilers.
+
+  It is also clear how important it is to make good design decisions from the
+  beginning. I don't think it was uncommon for students to rewrite their
+  tokenizers and parsers three or four times throughout this project. However,
+  even choosing a good design isn't good enough. The final module may need
+  support for some unforeseen feature that simply can't be accomplished using
+  the current design, and so the module will need to be rebuilt. This was one
+  frustrating aspect of this class: while implementing one module of the
+  compiler, we didn't yet know enough about the requirements of the module that
+  would be using it make many of these design choices.
+\end{description}
+
+\end{document}
