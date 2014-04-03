@@ -1,0 +1,104 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{hyperref}
+\usepackage{hyperref}
+
+\begin{document}
+
+{\Large\center\textbf{Final Paper Reviews} \\}
+
+\section{Intelligent Compilers}
+
+\subsection{Overview}
+Modern computers are moving toward architectures with more and more CPU cores.
+Programmers may no longer rely on serial programs running faster and faster over
+time due to higher clock speeds. Instead, programmers must implement their
+programs to take advantage of multicore systems. However, there are many
+different multicore hardware architectures and systems available today, and it
+is not trivial to optimize a program to run well on them all. The author argues
+that modern compilers are fundamentally limited in their abilities to optimize
+for these systems, and that a new compiler design is necessary.
+
+The author proposes using machine learning algorithms to develop compiler
+optimization heuristics. Rather than developing these by hand, which could take
+weeks or months, a computer can develop them in minutes. This would allow for
+optimizations to quickly be tailored to an individual's hardware, no matter how
+diverse it is.
+
+\subsection{Critique}
+The author very clearly states the problem with modern compilers: computer
+architectures have grown too complex to model in a traditional compiler,
+compilers depend many on effective heuristics to NP-complete problems, some of
+which may interfere with each other, computer architectures are moving quickly
+and traditional compiler designs are too rigid to keep up, and static
+optimizers must make far more conservative optimizations than dynamic
+optimizers. With these in hand, the author goes on to address how his new
+compiler methodology solves each of these problems.
+
+To conclude the paper, the author provides a concrete example of the potential
+speedup. This in itself is extremely compelling, as any free performance
+improvement provided by a compiler could have huge impacts on many different
+programs. However, there are some test cases in the author's published results
+that are in fact slower with the proposed compiler. The author does not address
+these and instead focuses only on the test cases that are faster.
+
+\section{Compiler design issues for embedded processors}
+
+\subsection{Overview}
+For many embedded applications, programmers are forced to write in assembly
+because compilers are not able to produce code that meets strict performance or
+power consumption requirements. This is a huge disadvantage to being able to
+write the same code in a higher level language like C: it requires much more
+work, is less portable, less robust, and harder to maintain. On top of this, as
+embedded systems become more and more complex, human programmers may lose the
+ability to reason about such large systems when writing in such a low-level
+language. For these reasons, it is important that compilers become more usable
+for embedded applications.
+
+Another interesting use of an embedded compiler capable of sufficient
+optimization is in the design process of the hardware itself. Chip designers
+could write test programs in high-level languages and simply change the compiler
+for a changing ISA rather than having to rewrite assembly programs.
+
+\subsection{Critique}
+This paper is a survey of current embedded compiler techniques rather than a
+research paper exploring new such techniques. However, the topic is still quite
+compelling, despite the paper not presenting any new information. One aspect
+that makes it so compelling is the author's mention that, pretty soon, we may no
+longer be able to write efficient assembly code by hand. This makes smarter
+compilers absolutely necessary.
+
+The author uses a concrete example of LCC, a small C compiler. His demonstration
+of the retargetability of the high-level IR code makes it clear that
+optimizations may still be performed before the low-level architecture-dependent
+assembly code is generated.
+
+As an aside, this seems like it would be a great application of intelligent
+compilers~\cite{4663796}. The multitude of different architectures and the
+author's mention that researchers are spending lots of time finding better
+heuristics for individual architectures makes the compilers presented above a
+perfect fit.
+
+\section{Reflection}
+Reading the listed papers has given me more of an appreciation that compilers
+are more than simply what we studied and built for class. The code generation
+stage seems to be the most active research topic, as optimization could have
+such far-reaching benefits. These optimization topics are becoming extremely
+important now that CPU clock speeds have leveled out and most systems have
+become multicore. A compiler that can automatically parallelize an algorithm
+would only become more and more useful as the number of cores in modern
+processors increase.
+
+The papers have also shown me that many optimization algorithms are in fact
+NP-complete. Therefore, for compiler optimization, it is often a matter of
+developing better heuristics and not developing better algorithms. This makes me
+wonder how a language can influence these heuristics; that is, could a
+high-level language for example be more conducive to optimization?
+
+\pagebreak
+
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{ref}
+
+\end{document}
