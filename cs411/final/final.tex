@@ -1,0 +1,109 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{amsmath}
+
+\begin{document}
+
+{\center\Large\textbf{Analysis of the Android x86 Build Tree} \\}
+
+\section{Introduction}
+
+Android x86 is a project to port the Android operating system to the x86
+architecture, which would allow it to run on more common x86 hardware. Here, I
+will analyze the Android x86 kernel and compare and contrast the I/O scheduling
+and process scheduling algorithms with those in the default kernel, and with
+those on which we worked throughout the quarter.
+
+\section{Kernel Design}
+
+\subsection{I/O Scheduler}
+
+Modern Linux kernels use the Completely Fair Queueing (CFQ) scheduler. This
+scheduler attempts to fairly distribute I/O by keeping track of I/O time
+per-process, and attempting to balance it with the process priority.
+
+We developed a new I/O scheduler for the kernel based on the Shortest Seek Time
+First (SSTF) algorithm. At each dispatch, The algorithm searches in the current
+head direction for the nearest request. If it doesn't find a request, it
+searches for the closest request in the opposite direction. We found that this
+solution had significantly worse performance than the CFQ scheduler. While this
+algorithm might provide great throughput when reading sequentially, it can
+potentially ruin interactivity if a request is placed directly behind the drive
+head.
+
+According to the Android kernel documentation, no kernel options are
+specifically set regarding the I/O scheduler. Therefore, at runtime, it will use
+CFQ. This is a reasonable choice, as Android devices I/O loads should resemble
+interactive system loads, which the CFQ scheduler was designed for.
+
+With many of today's Android devices being powered by solid-state drives, our
+elevator/seek time based solution would not work well. These devices do not add
+additional overhead for random access requests, so the CPU power required to
+order requests would be wasted. Additionally, for these devices latency is
+probably more important than throughput. Our scheduler sacrifices latency in
+favor of throughput, while the CFQ seems to maintain a good balance of the two.
+
+\subsection{Process Scheduling}
+
+The default scheduler in the Linux kernel is the Completely Fair Scheduler
+(CFS). Because of the way the CFS is implemented, it still gives interactive
+processes that spend a large amount of their time waiting a fair share of the
+CPU.
+
+We added functionality for first-in-first-out (FIFO) and round-robin (RR)
+real-time scheduling. The FIFO algorithm places no timing constraints on a
+process, allowing it to run indefinitely or until it yields or blocks.  When
+this happens, it allows the next process, ordered by priority, to run.  The
+round-robin scheduler does exactly the same, except it enforces a time slice.
+If a program exhausts its time slice before yielding or blocking, then the
+kernel preempts it and runs the next process.
+
+The Android kernel does not differ from the mainline kernel as far as process
+scheduling. It makes use of the Completely Fair Scheduler (CFS). Our FIFO and RR
+schedulers would not have worked well in this situation. FIFO is designed for
+batch systems, where a process runs to completion before yielding. This would
+ruin interactivity for the system. The RR scheduler may be a little better due
+to its enforcement of time slices, but it still meant for soft real-time
+applications, which an interactive operating system is not.
+
+The Android kernel does enable the \texttt{CONFIG\_NO\_HZ} configuration option,
+which enables tickless mode. Typically, the kernel must interrupt anywhere
+between 100 and 1000 times per second to schedule processes and perform general
+kernel tasks. It must do this even if the system is idle. On a mobile device
+with limited battery capacity, this consumes precious processing power and
+wastes battery life. In a tickless system, when the processor is idle timer
+ticks are disabled, which allows the system to go into a deep sleep mode.
+
+The choice to use the default Linux scheduler along with the
+\texttt{CONFIG\_NO\_HZ} option makes sense for Android. CFS has been shown to
+have good performance in interactive systems with desktop-like workloads, which
+is exactly where modern Android devices are headed. Little differentiates them
+from modern desktop PCs, so there is little need for kernel changes.
+
+\section{Group Evaluation}
+
+\input{_group_eval.tex}
+
+\begin{thebibliography}{9}
+
+\bibitem{lkdev}
+  \textit{Linux Kernel Development},
+  Robert Love
+
+\bibitem{androidx86}
+  Android-x86 Project:
+  \url{http://www.android-x86.org/}
+
+\bibitem{ibmcfs}
+  Inside the Linux 2.6 Completely Fair Scheduler:
+  \url{http://www.ibm.com/developerworks/library/l-completely-fair-scheduler/}
+
+\bibitem{androidkconfig}
+  Android Kernel Configuration:
+  \url{http://source.android.com/devices/tech/kernel.html}
+
+\end{thebibliography}
+
+\end{document}

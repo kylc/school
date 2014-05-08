@@ -1,0 +1,2 @@
+latex:
+	latex final.tex
