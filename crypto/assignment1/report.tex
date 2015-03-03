@@ -1,0 +1,65 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Assignment 1} \\}
+
+\begin{enumerate}
+  \item \begin{enumerate}
+    \item This encryption scheme is not perfectly secure. Shown below is a table
+      of all 1-bit plaintexts encrypted with a 1-bit key. Notice that the
+      distributions of ciphertexts are different depending on the plaintext. \\
+      \begin{tabular}{ l | l l l }
+        Enc($k$, $m$) & $k$ = 0 & 1 \\ \hline
+        $m$ = 0       &       0 & 0 \\
+              1       &       0 & 1 \\
+      \end{tabular}
+    \item This scheme is perfectly secure. The distribution of the ciphertexts
+      is uniformly distributed over $\{ 0, 1, \ldots, 2^{n-1} \}$.
+  \end{enumerate}
+
+  \item This argument that one-time pad is not perfectly secret is flawed
+    because it assumes that Eve is able to recognize when she has found the key
+    $k$ that was used. This is impossible to do without context, as a single
+    n-byte cipthertext $c$ can be transformed into any plaintext message $m \in
+    M$. For example, the ciphertext of \texttt{HELLO} could be decrypted to any
+    other five letter combination of alphabet letters solely based on the key
+    chosen.
+
+  \item Eve has now seen $c = m \oplus k$ and $c' = m' \oplus k$. Written
+    another way, $k = c \oplus m$ and $k = c' \oplus m'$, so $c \oplus m = c'
+    \oplus m'$. Therefore $c \oplus c' = m \oplus m'$. In other words, by XORing
+    the two ciphertexts, Eve can learn the XOR of the two messages.
+
+  \item For a $t$-out-of-$n$ secret sharing scheme to be secure, we require that
+    for any party $|X| < t$ there is no information about the plaintext learned.
+    In a 5-out-of-5 sharing scheme, for example, if a party of four knows that
+    the fifth party's share is less than $k$ bits long, then there must be some
+    information embedded in their shares that depend on the message. This
+    violates the security principle of secret sharing, which states that for any
+    deficient set $X \subseteq \{ 1, \ldots, n \}$ and $m, m' \in M$, the
+    distributions $\{ S \gets \mbox{Share}(m); S|_X \}$ and $\{ S \gets
+    \mbox{Share}(m); S|_X \}$ are identical. These distributions cannot be equal
+    because there must be some information about the message encoded in their
+    shares, which violates the security of the scheme.
+
+  \item In this secret sharing problem we have three groups of three people
+    each, and the secret can only be opened if at least 2-out-of-3 people from
+    each committee are present. This can be broken into three 2-out-of-3
+    problems and one 3-out-of-3 problem.
+
+    That is, for each subcommittee, use a 3-out-of-3 secret sharing scheme to
+    ensure that all three subcommittees must be present to unlock the secret.
+    Then, within each subcommittee, use a 2-out-of-3 secret sharing scheme so
+    that two of the three members of each subcommittee must be present to unlock
+    their share of the main secret.
+\end{enumerate}
+
+\end{document}

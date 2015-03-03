@@ -1,0 +1,268 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+\usepackage{xspace,graphicx,amsmath,amssymb,xcolor}
+
+\newcommand{\pct}{\mathbin{\%}}
+
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Enc}{\text{\sf Enc}}
+\newcommand{\Dec}{\text{\sf Dec}}
+\newcommand{\KeyGen}{\text{\sf KeyGen}}
+
+% fancy script L
+\usepackage[mathscr]{euscript}
+\renewcommand{\L}{\ensuremath{\mathscr{L}}\xspace}
+\newcommand{\lib}[1]{\ensuremath{\L_{\textsf{#1}}}\xspace}
+
+\newcommand{\myterm}[1]{\ensuremath{\text{#1}}\xspace}
+\newcommand{\bias}{\myterm{bias}}
+\newcommand{\link}{\diamond}
+\newcommand{\subname}[1]{\ensuremath{\textsc{#1}}\xspace}
+
+
+%%% code boxes
+
+\newcommand{\fcodebox}[1]{%
+    \framebox{\codebox{#1}}%
+}
+\newcommand{\hlcodebox}[1]{%
+    \fcolorbox{black}{myyellow}{\codebox{#1}}%
+}
+
+
+\usepackage{varwidth}
+
+\newcommand{\codebox}[1]{%
+        \begin{varwidth}{\linewidth}%
+        \begin{tabbing}%
+            ~~~\=\quad\=\quad\=\quad\=\kill
+            #1
+        \end{tabbing}%
+        \end{varwidth}%
+}
+
+
+\definecolor{myyellow}{HTML}{F5F589}
+
+\newcommand{\mathhighlight}[1]{\basehighlight{$#1$}}
+\newcommand{\highlightline}[1]{%\raisebox{0pt}[-\fboxsep][-\fboxsep]{
+    \hspace*{-\fboxsep}\basehighlight{#1}%
+%}
+}
+\newcommand{\basehighlight}[1]{\colorbox{myyellow}{#1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Assignment 4} \\}
+
+\begin{enumerate}
+  \item
+    \begin{enumerate}
+      \item We must modify the CPA security definition for CBC mode encryption
+        to allow calling programs to see the chosen IV before choosing a
+        plaintext.
+
+        \begin{minipage}{.5\textwidth}
+          $\lib{cpa-L}^\Sigma$:
+            \fcodebox{
+              $r \gets \{ 0, 1 \}^n$ \\
+
+              \underline{\subname{ivoracle():}} \\
+              \> return $r$ \\ \\
+
+              \underline{\subname{challenge($m_L, m_R \in \Sigma.\M$)}} \\
+              \> $c := \Sigma.\Enc(k, r, m_L)$ \\
+              \> $r \gets \{ 0, 1 \}^n$ \\
+              \> return $c$
+            }
+        \end{minipage}
+        \begin{minipage}{.5\textwidth}
+          $\lib{cpa-L}^\Sigma$:
+            \fcodebox{
+              $r \gets \{ 0, 1 \}^n$ \\
+
+              \underline{\subname{ivoracle():}} \\
+              \> return $r$ \\ \\
+
+              \underline{\subname{challenge($m_L, m_R \in \Sigma.\M$)}} \\
+              \> $c := \Sigma.\Enc(k, r, m_R)$ \\
+              \> $r \gets \{ 0, 1 \}^n$ \\
+              \> return $c$
+            }
+        \end{minipage}
+        
+        We must then also modify the $\Enc$ function to accept the pre-chosen IV.
+        The $\Dec$ function remains unchanged, as we still embed the IV into the
+        output.
+
+        \begin{minipage}{.5\textwidth}
+          \fcodebox{
+            \underline{$\Enc(x)_{cbc}^F(k, c_0, m_1 \cdots m_l)$:} \\
+            \> for $i = 1 \text{ to } l$ \\
+            \> \> $c_i := F(k, m_i \oplus c_{i-1})$ \\
+            \> return $c_0c_1 \cdots c_l$
+          }
+        \end{minipage}
+        \begin{minipage}{.5\textwidth}
+          \fcodebox{
+            \underline{$\Dec(x)_{cbc}^F(k, c_1 \cdots c_l)$:} \\
+            \> for $i = 1 \text{ to } l$ \\
+            \> \> $m_i := F^{-1}(k, c_i) \oplus c_{i-1}$ \\
+            \> return $m_1 \cdots m_l$
+          }
+        \end{minipage}
+
+      \item We will show that traditional CBC mode does satisfy this new CPA
+        security definition by providing a distinguishing program $\subname{A}$
+        that produced a bias when linked against $\lib{cpa-L}^\Sigma$ and
+        $\lib{cpa-R}^\Sigma$. The distinguisher will make use of the fact that,
+        by knowing the plaintext $m_1$ and the IV, it can determine the input to
+        $F$. By knowing the input, CBC really becomes a deterministic encryption
+        scheme, which we know we can distinguish.
+
+        \[
+          \fcodebox{
+            \underline{\subname{A:}} \\
+            \> $m_L := \{ 0 \}^n$ \\
+            \> $m_R := \{ 1 \}^n$ \\
+            \> $i := \subname{ivoracle}()$ \\
+            \> $c_0 := \subname{challenge}(m_L \oplus i, m_R \oplus i)$ \\
+            \> $c_1 := \subname{challenge}(m_L \oplus i, m_L \oplus i)$ \\
+            \> return $c_0 == c_1$
+          }
+        \]
+
+        This produces a bias of $1 - \frac{1}{2^n}$, which is not negligible.
+
+    \end{enumerate}
+
+  \item To show that this is modified-CPA\$ secure we must show that, given an
+    adversary with access to a $\subname{challenge}(iv, m_L, m_R)$ function, the
+    adversary cannot tell if $m_L$ is being encrypted or if $m_R$ is being
+    encrypted. That is, the function returns pseudorandom ciphertexts. First,
+    let's start out with the definition of the $\Enc$ function.
+    \[
+      A
+      \link
+      \fcodebox{
+        $k \gets \{ 0, 1 \}^n$ \\
+        \underline{$\subname{challenge}(iv, m_L, m_R)$:} \\
+        \> $iv' := F(k_{\text{left}}, iv)$ \\
+        \> $c := \text{CBC encryption of } m_L$ \\
+        \>\> $\text{under key } k$ \\
+        \>\> $\text{using initialization vector } iv'$ \\
+        \> $\text{return } c$
+      }
+    \]
+
+    Factor out the CBC encryption scheme based on its CPA\$ security.
+    \[
+      A
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge}(iv, m_L, m_R)$:} \\
+        \> $iv' := F(k_{\text{left}}, iv)$ \\
+        \> $c := \subname{challenge'}(iv', m_L)$ \\
+        \> $\text{return } c$
+      }
+      \link
+      \fcodebox{
+        $k \gets \{ 0, 1 \}^n$ \\
+        \underline{$\subname{challenge'}(iv, m_L, m_R)$:} \\
+        \> $c := \text{CBC encryption of } m_L$ \\
+        \>\> $\text{under key } k$ \\
+        \>\> $\text{using initialization vector } iv$
+      }
+    \]
+
+    Based on the security definition of $F$ and the fact that an IV cannot be
+    repeated, we can replace $iv'$ with randomness.
+    \[
+      A
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge}(iv, m_L, m_R)$:} \\
+        \> $c := \subname{challenge'}(m_L, m_R)$ \\
+        \> $\text{return } c$
+      }
+      \link
+      \fcodebox{
+        $k \gets \{ 0, 1 \}^n$ \\
+        \underline{$\subname{challenge'}(m_L, m_R)$:} \\
+        \> $iv := \{ 0, 1 \}^n$ \\
+        \> $c := \text{CBC encryption of } m_L$ \\
+        \>\> $\text{under key } k$ \\
+        \>\> $\text{using initialization vector } iv$
+      }
+    \]
+
+    Based on the CPA\$ security of CBC encryption, replace the
+    $\subname{challenge'}$ subroutine with a random ciphertext.
+    \[
+      A
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge}(iv, m_L, m_R)$:} \\
+        \> $c := \subname{challenge'}(m_L, m_R)$ \\
+        \> $\text{return } c$
+      }
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge'}(m_L, m_R)$:} \\
+        \> $\text{return } c \gets \mathcal C$
+      }
+    \]
+
+    And now we can move everything back into the main library.
+    \[
+      A
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge}(iv, m_L, m_R)$:} \\
+        \> $\text{return } c \gets \mathcal C$
+      }
+    \]
+
+    So, we can see that this satisfied CPA\$ security by returning pseudorandom
+    ciphertexts.
+
+  \item To show that $\Sigma^2$ is not CCA secure, we must describe a
+    distinguisher that produces a bias when linked to a library that encrypts
+    $m_L$ compared to when it is linked to a library that encrypts $m_R$.
+    Because we are in the CCA-security world, the distinguisher has the ability
+    to decrypt arbitrary messages, as long as the messages were not previously
+    passed into the challenge function.
+
+    The intuition for this distinguisher is to realize that message data is
+    duplicated in the ciphertext. Therefore, if we can jumble the ciphertext to
+    produce another ciphertext that decrypts to the same message then we can
+    call the decrypt function directly on this new ciphertext.
+    
+    Such a distinguisher is defined below:
+    \[
+      \fcodebox{
+        \underline{$\subname{A}$:} \\
+        \> $x \gets \{ 0 \}^n$ \\
+        \> $y \gets \{ 1 \}^n$ \\
+        \> $c_{\text{left}}, c_{\text{right}} = \subname{challenge}(x, y)$ \\
+        \> $m = \subname{dec}(c_\text{right} || c_\text{left})$ \\
+        \> return $m == x$
+      }
+    \]
+
+    This program produces a bias of $1 - \frac{1}{2^n}$, which is not
+    negligible, so we have shown that $\Sigma^2$ is not CCA secure.
+
+\end{enumerate}
+
+\end{document}

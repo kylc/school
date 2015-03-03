@@ -1,0 +1,137 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+\usepackage{xspace,graphicx,amsmath,amssymb,xcolor}
+\usepackage[T1]{fontenc}
+
+\newcommand{\pct}{\mathbin{\%}}
+
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Enc}{\text{\sf Enc}}
+\newcommand{\Dec}{\text{\sf Dec}}
+\newcommand{\KeyGen}{\text{\sf KeyGen}}
+
+% fancy script L
+\usepackage[mathscr]{euscript}
+\renewcommand{\L}{\ensuremath{\mathscr{L}}\xspace}
+\newcommand{\lib}[1]{\ensuremath{\L_{\textsf{#1}}}\xspace}
+
+\newcommand{\myterm}[1]{\ensuremath{\text{#1}}\xspace}
+\newcommand{\bias}{\myterm{bias}}
+\newcommand{\link}{\diamond}
+\newcommand{\subname}[1]{\ensuremath{\textsc{#1}}\xspace}
+
+
+%%% code boxes
+
+\newcommand{\fcodebox}[1]{%
+    \framebox{\codebox{#1}}%
+}
+\newcommand{\hlcodebox}[1]{%
+    \fcolorbox{black}{myyellow}{\codebox{#1}}%
+}
+
+
+\usepackage{varwidth}
+
+\newcommand{\codebox}[1]{%
+        \begin{varwidth}{\linewidth}%
+        \begin{tabbing}%
+            ~~~\=\quad\=\quad\=\quad\=\kill
+            #1
+        \end{tabbing}%
+        \end{varwidth}%
+}
+
+
+\definecolor{myyellow}{HTML}{F5F589}
+
+\newcommand{\mathhighlight}[1]{\basehighlight{$#1$}}
+\newcommand{\highlightline}[1]{%\raisebox{0pt}[-\fboxsep][-\fboxsep]{
+    \hspace*{-\fboxsep}\basehighlight{#1}%
+%}
+}
+\newcommand{\basehighlight}[1]{\colorbox{myyellow}{#1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Assignment 4} \\}
+
+\begin{enumerate}
+  \item To create a MAC forgery in this scheme, we only have to find a hash
+    collision. When a user tries to log in, they will send their authentication
+    code, $\text{MAC}(k, H(d))$, where $d = \text{username|date}$. The
+    server will verify that the MAC decrypts to the correct username, and that
+    the date part is less than the current date.
+
+    So, to generate a forgery under this scheme we must find some username $u$
+    and some date $d$ such that $H(u\text{|}20150227) = H(\text{mikero|}d)$. We
+    are required to fix the date for the user we will be registering because the
+    server will encode the data into the MAC, which we have no control over.
+    However, we can pick a random date (as long is it is before $20150227$) for
+    user \textit{mikero} because the server will only verify that it is less
+    than the current date.
+
+    Using the birthday bound, we can craft a program to find this collision in a
+    reasonable amount of time. Because we have a 40-bit hash function, we expect
+    to find a collision within $2^{20}$ attemps. So, we first generate a set of
+    length $2^{20}$ filled with hashes for user \textit{mikero} with random
+    dates. Next, we generate $2^{20}$ hashes for random usernames with the date
+    $20150227$. We expect that there should be a collision between these two
+    sets.
+
+    Here is an example of such a collision:
+
+    \begin{tabular}{ l  l  l  }
+      Username & Date     & Hash \\ \hline
+      mikero   & 14900767 & 2e85953aea \\
+      jppem    & 20150227 & 2e85953aea \\
+    \end{tabular}
+    
+  \item Given a collision under $H^{(t)}$, we would like to efficiently find a
+    collision under $H$. We are given $a, b$ such that $H^{(t)}(a) =
+    H^{(t)}(b)$. We can rewrite this as
+
+    $$
+      H(H^{(t-1)}(a)) = H(H^{(t-1)}(b))
+    $$
+
+    Based on this, we can see that $H^{(t-1)}(a)$ and $H^{(t-1)}(b)$ are a
+    collision under a single application of $H$.
+
+  \item To show that exponents in $\pmod{n}$ arithmetic can be reduced by
+    $\phi(n)$, we must show that the $x^a \pmod{n}$ is equivalent to $(x^{a
+    \bmod{\phi(n)}}) \pmod{n}$.
+    
+    Lagrange's theorem states that for any finite group $G$, the number of
+    subelements divides the order of $G$. That is, the number of elements in the
+    group of numbers coprime to $n$, or $\phi(n)$, divides $\mathbb{Z}_n$.
+    Lagrange's theorem therefore states that $m^{\phi(n)} = 1$.
+
+    We can rewrite the right-hand side of the original equation by following
+    common exponentiation rules.
+    $$
+      (x^a)(x^{\phi(n)}) \pmod{n}
+    $$
+
+    And, as we have shown, $x^{\phi(n)} = 1$. So, this is equivalent to the
+    left-hand side of the original equation.
+    $$
+      (x^a)(1) \pmod{n} = x^a \pmod{n}
+    $$
+
+    Therefore, we have shown that exponents in $\pmod{n}$ arithmetic can be
+    reduced by $\phi(n)$.
+
+\end{enumerate}
+
+\end{document}

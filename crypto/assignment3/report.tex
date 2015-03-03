@@ -1,0 +1,262 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+\usepackage{xspace,graphicx,amsmath,amssymb,xcolor}
+
+\newcommand{\pct}{\mathbin{\%}}
+
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Enc}{\text{\sf Enc}}
+\newcommand{\Dec}{\text{\sf Dec}}
+\newcommand{\KeyGen}{\text{\sf KeyGen}}
+
+% fancy script L
+\usepackage[mathscr]{euscript}
+\renewcommand{\L}{\ensuremath{\mathscr{L}}\xspace}
+\newcommand{\lib}[1]{\ensuremath{\L_{\textsf{#1}}}\xspace}
+
+\newcommand{\myterm}[1]{\ensuremath{\text{#1}}\xspace}
+\newcommand{\bias}{\myterm{bias}}
+\newcommand{\link}{\diamond}
+\newcommand{\subname}[1]{\ensuremath{\textsc{#1}}\xspace}
+
+
+%%% code boxes
+
+\newcommand{\fcodebox}[1]{%
+    \framebox{\codebox{#1}}%
+}
+\newcommand{\hlcodebox}[1]{%
+    \fcolorbox{black}{myyellow}{\codebox{#1}}%
+}
+
+
+\usepackage{varwidth}
+
+\newcommand{\codebox}[1]{%
+        \begin{varwidth}{\linewidth}%
+        \begin{tabbing}%
+            ~~~\=\quad\=\quad\=\quad\=\kill
+            #1
+        \end{tabbing}%
+        \end{varwidth}%
+}
+
+
+\definecolor{myyellow}{HTML}{F5F589}
+
+\newcommand{\mathhighlight}[1]{\basehighlight{$#1$}}
+\newcommand{\highlightline}[1]{%\raisebox{0pt}[-\fboxsep][-\fboxsep]{
+    \hspace*{-\fboxsep}\basehighlight{#1}%
+%}
+}
+\newcommand{\basehighlight}[1]{\colorbox{myyellow}{#1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Assignment 3} \\}
+
+\begin{enumerate}
+  \item To show that $F'(k, r)$ is a secure PRF we must show that for two
+    libraries, \lib{prf-real} and \lib{prf-rand}, there is no program that can
+    distinguish between them. To do that, we will make small incremental changes
+    to \lib{prf-real} that, by previously proven security definitions, do not
+    change the security of the library. In the end, we will show that through
+    these changes we can transform \lib{prf-real} into \lib{prf-rand}. By
+    showing this, we demonstrate that \lib{prf-real} leaks no information about
+    the plaintext.
+
+    First, we will write out \lib{prf-real} linked to some program $A$ as
+    defined by the problem.
+    \[
+      A
+      \link
+      \fcodebox{
+        $k \gets \{ 0, 1 \}^n$ \\
+        \underline{$\subname{challenge}(r)$:} \\
+        \> $p := F(k, r)$ \\
+        \> $x := G(p)$ \\
+        \> return $x$
+      }
+    \]
+
+    The next step is to factor out the call to $F$ as another library.
+    \[
+      A
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge}(r)$:} \\
+        \> $p := \subname{query'}(r)$ \\
+        \> $x := G(p)$ \\
+        \> return $x$
+      }
+      \link
+      \fcodebox{
+        $k \gets \{ 0, 1 \}^n$ \\
+        \underline{$\subname{query}(r)$:} \\
+        \> $p := F(k, r)$ \\
+        \> return $p$
+      }
+    \]
+
+    Based on the security of the PRF $F$, we can replace $\lib{prf-real}^F$ with
+    a random implementation $\lib{prf-rand}^F$.
+    \[
+      A
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge}(r)$:} \\
+        \> $p := \subname{query'}(r)$ \\
+        \> $x := G(p)$ \\
+        \> return $x$
+      }
+      \link
+      \fcodebox{
+        $T$ := empty \\
+        \underline{$\subname{query}(r)$:} \\
+        \> if $T[r]$ undefined \\
+        \>\> $T[r] \gets \{ 0, 1 \}^n$ \\
+        \> return $T[r]$
+      }
+    \]
+
+    Now, if we ensure we never choose an already-used $r$ then we can simplify
+    \subname{query} to true randomness.
+    \[
+      A
+      \link
+      \fcodebox{
+        $R$ := empty \\
+        \underline{$\subname{challenge}(r)$:} \\
+        \> $r \gets \{ 0, 1 \}^n \setminus R$ \\
+        \> $R$ := $R \cup \{ r \}$ \\
+        \> $p := \subname{query'}(r)$ \\
+        \> $x := G(p)$ \\
+        \> return $x$
+      }
+      \link
+      \fcodebox{
+        \underline{$\subname{query}(r)$:} \\
+        \> $x \gets \{ 0, 1 \}^n$ \\
+        \> return $x$
+      }
+    \]
+
+    We can then combine the library we pulled out.
+    \[
+      A
+      \link
+      \fcodebox{
+        $R$ := empty \\
+        \underline{$\subname{challenge}(r)$:} \\
+        \> $r \gets \{ 0, 1 \}^n \setminus R$ \\
+        \> $R$ := $R \cup \{ r \}$ \\
+        \> $p \gets \{ 0, 1 \}^n$ \\
+        \> $x$ := $G(p)$ \\
+        \> return $x$
+      }
+    \]
+
+    Based on the security of $G$ we can apply almost the same operation to its
+    call.
+    \[
+      A
+      \link
+      \fcodebox{
+        $R$ := empty \\
+        \underline{$\subname{challenge}(r)$:} \\
+        \> $r \gets \{ 0, 1 \}^n \setminus R$ \\
+        \> $R$ := $R \cup \{ r \}$ \\
+        \> $x \gets \{ 0, 1 \}^n$ \\
+        \> return $x$
+      }
+    \]
+
+    And we can now remove the unused code.
+    \[
+      A
+      \link
+      \fcodebox{
+        \underline{$\subname{challenge}(r)$:} \\
+        \> $x \gets \{ 0, 1 \}^n$ \\
+        \> return $x$
+      }
+    \]
+
+    Obviously, this library does not leak information about the plaintext $r$
+    because the plaintext is completely ignored!
+
+  \item To show that $F'(k, r) = F(k, r) \oplus F(k, \bar{r})$ is not a PRF we
+    must provide a program that can distinguish $F'$ from true randomness
+    non-negligibly. Such a program is shown below:
+
+    \[
+      \fcodebox{
+        \underline{$\subname{A}$:} \\
+        \> $x \gets \{ 0 \}^n$ \\
+        \> $c_1 = \subname{query}(x)$ \\
+        \> $c_2 = \subname{query}(\bar{x})$ \\
+        \> return $c_1 == c_2$
+      }
+    \]
+
+    When linked to $\lib{prf-real}^F$ this program will return $1$ with
+    probability $1$. When linked to $\lib{prf-rand}^F$ it will return $1$ with
+    probability $\frac{1}{2^n}$. Because this difference is non-negligible, a
+    polynomial-time program is able to distinguish it from true randomness.
+    Therefore, the PRF is not secure Therefore, the PRF is not secure
+
+  \item We must show that any 2-round Feistel network cannot be a secure PRF. To
+    do this, we will create a distinguisher that demonstrates a non-negligible
+    bias between true randomness and the Feistel network $F$.
+
+    Our distinguisher will exploit the fact that a 2-round Feistel network
+    $F(a, b) = (f(b) \oplus a, f[f(b) \oplus a) \oplus b]$. Because of this, if
+    we call $F$ once with the string $x$ then we can call it again with the left
+    and right halves of the output reversed. We can then make use of the
+    property mentioned above to check the second half of the second output. If
+    the program is linked to the Feistel network then it will always be equal to
+    $0$.
+
+    \[
+      \fcodebox{
+        \underline{$\subname{A}$:} \\
+        \> $x \gets \{ 0 \}^n$ \\
+        \> $L_1, R_1 = F(x_l, x_r)$ \\
+        \> $L_2, R_2 = F(R_l, L_r)$ \\
+        \> return $L_2 == 0$
+      }
+    \]
+
+  \item We will show that the encryption scheme does not have CPA-security by
+    providing a distinguishing program $A$ that shows different biases when
+    linked to $\lib{prp-real}^F$ and $\lib{prp-rand}^F$.
+
+    \[
+      \fcodebox{
+        \underline{$\subname{A}$:} \\
+        \> $x \gets \{ 0, 1 \}^n$ \\
+        \> $y \gets \{ 0, 1 \}^n$ \\
+        \> $a = \subname{challenge}(x, x)$ \\
+        \> $u = a_l \oplus a_r$ \\
+        \> $b = \subname{challenge}(x, y)$ \\
+        \> $v = b_l \oplus b_r$ \\
+        \> return $u == v$
+      }
+    \]
+
+    The bias when linked to $\lib{prp-real}^F$ is $1$, but when linked to
+    $\lib{prp-rand}^F$ it is $\frac{1}{2^n}$.
+
+\end{enumerate}
+
+\end{document}
