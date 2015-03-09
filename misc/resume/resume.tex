@@ -56,16 +56,17 @@
 \section{Online}
 \begin{tabularx}{\linewidth}{@{}l X@{}}
   \textsc{email}       & \href{mailto:kcesare@gmail.com}{kcesare@gmail.com} \\
+  \textsc{website}     & \href{http://kylc.me}{kylc.me}\\
   \textsc{github}      & \href{http://www.github.com/kylc}{github.com/kylc}\\
 \end{tabularx}
 
 \end{multicols}
 
 
-\begin{tabularx}{\textwidth}{@{}l X}
-  \textsc{Interests} & computer vision, machine learning, artificial
-  intelligence, functional programming, programming languages, robotics
-\end{tabularx}
+% \begin{tabularx}{\textwidth}{@{}l X}
+%   \textsc{Interests} & computer vision, machine learning, artificial
+%   intelligence, functional programming, programming languages, robotics
+% \end{tabularx}
 
 \newcommand{\degree}[4]{\textsc{#1} & \textbf{#2} & \textsc{#3} & \textbf{#4}\\}
 
@@ -74,7 +75,7 @@
 
   \degree{Expected March 2015}
   {B.S.}
-  {Computer Science (GPA: 3.87 / 4.0)}
+  {Computer Science (GPA: 3.86 / 4.0)}
   {Oregon State University}
 
 \end{tabular*}
@@ -112,7 +113,7 @@
   {Coordinating team to construct a fully autonomous quadcopter for competition
   in the International Aerial Robotics Competition.  Working with \skill{ROS},
   \skill{Python}, and \skill{NumPy/SciPy} to build 3D navigation systems.  Using
-  \skill{C} to program real-time embedded flight controllers.}
+  \skill{C} and \skill{C++} to program real-time embedded flight controllers.}
 
   \experience{2013}
   {Quality Assurance Engineer}
@@ -159,6 +160,12 @@
 }
 \section{Selected Projects}
 \begin{tabularx}{\textwidth}{@{}p{2.2cm}|X@{}}
+  \proj{Aerial Flight Controller}
+  {A \skill{C++} embedded flight control system designed to control anything
+  that flies, from multirotors to rockets. Goals included a 1kHz feedback loop,
+  a generic programming interface, and a light footprint.
+  }
+  {github.com/OSURoboticsClub/aerial\_control}
 
   \proj{Mobile Biomarkers}
   {An iPhone application developed for the OSU Chemistry Department built with
@@ -166,33 +173,26 @@
   chemically reactive slides.}
   {github.com/biomarkers}
 
-  \proj{Robot Navigation}
-  {2D robotic navigation system for unknown environments.  Built for the Oregon
-  State University Robotics Club's Aerial Team.  Uses \skill{Python},
-  \skill{NumPy}, and \skill{SciPy}.}
-  {github.com/kylc/robot\_nav}
-
-  \proj{FPGA Stereo Vision}
-  {A real-time stereo vision system designed for implementation on a
-  field-programmable gate array.  Written entirely in \skill{C} to be
-  synthesized using high-level synthesis.}
-  {github.com/kylc/fpga\_stereo\_vision}
+  \proj{Monte Carlo Path Tracer}
+  {A raytracing renderer developed in \skill{Rust}. Designed to simulate optical
+  caustic effects and learn more about physically based rendering.}
+  {github.com/kylc/raytracer}
 
 \end{tabularx}
 
 \section{Honors/Awards}
 \begin{tabularx}{\textwidth}{@{}r|X l|l@{}}
-2013 & Andy Aitkenhead Scholarship &
-2011 & OSU Provost Scholarship \\
+2014 & Laine Memorial Scholarship &
+2012 & Tupling Scholarship \\
 
 2013 & JJ Cardiz Scholarship &
 2011 & OSU Tuition Grant Scholarship \\
 
-2012 & McDougall Scholarship &
+2013 & Andy Aitkenhead Scholarship &
 2011 & OSU Engineering Dean's Scholarship \\
 
-2012 & Tupling Scholarship &
-     & \\
+2012 & McDougall Scholarship &
+2011 & OSU Provost Scholarship \\
 \end{tabularx}
 
 %%\XeTeXpdffile ''resume.pdf'' page 1 scaled 800
