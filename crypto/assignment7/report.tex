@@ -1,0 +1,145 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+\usepackage{xspace,graphicx,amsmath,amssymb,xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{numprint}
+
+\npthousandsep{ }
+
+\newcommand{\pct}{\mathbin{\%}}
+
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Enc}{\text{\sf Enc}}
+\newcommand{\Dec}{\text{\sf Dec}}
+\newcommand{\KeyGen}{\text{\sf KeyGen}}
+
+% fancy script L
+\usepackage[mathscr]{euscript}
+\renewcommand{\L}{\ensuremath{\mathscr{L}}\xspace}
+\newcommand{\lib}[1]{\ensuremath{\L_{\textsf{#1}}}\xspace}
+
+\newcommand{\myterm}[1]{\ensuremath{\text{#1}}\xspace}
+\newcommand{\bias}{\myterm{bias}}
+\newcommand{\link}{\diamond}
+\newcommand{\subname}[1]{\ensuremath{\textsc{#1}}\xspace}
+
+
+%%% code boxes
+
+\newcommand{\fcodebox}[1]{%
+    \framebox{\codebox{#1}}%
+}
+\newcommand{\hlcodebox}[1]{%
+    \fcolorbox{black}{myyellow}{\codebox{#1}}%
+}
+
+
+\usepackage{varwidth}
+
+\newcommand{\codebox}[1]{%
+        \begin{varwidth}{\linewidth}%
+        \begin{tabbing}%
+            ~~~\=\quad\=\quad\=\quad\=\kill
+            #1
+        \end{tabbing}%
+        \end{varwidth}%
+}
+
+
+\definecolor{myyellow}{HTML}{F5F589}
+
+\newcommand{\mathhighlight}[1]{\basehighlight{$#1$}}
+\newcommand{\highlightline}[1]{%\raisebox{0pt}[-\fboxsep][-\fboxsep]{
+    \hspace*{-\fboxsep}\basehighlight{#1}%
+%}
+}
+\newcommand{\basehighlight}[1]{\colorbox{myyellow}{#1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Assignment 7} \\}
+
+\begin{enumerate}
+  \item Given the parameters $p$, $g$, $A$, and $B$, the shared key $g^{ab} =
+    19266619797362$. We are able to compute this only because the we used
+    $\mathbb{G} = \Z_p^*$. The prime $p$ is not a ``safe'' prime, meaning that
+    we are able to easily factor $p-1$. Because of this, we can use methods like
+    the Pohlig-Hellman algorithm, Shanks baby-step/giant-step algorithm, and the
+    Pollard rho method. For this calculation, I used the Pari/GP \texttt{znlog}
+    function.
+
+  \item Given an ElGamal ciphertext $(B, C)$ of an unknown plaintext $M \in
+    \mathbb{G}$, the generator $g$, and the public key $A$, we can construct
+    another ciphertext $(B', C')$ that decrypts to the same $M$.
+
+    To be decrypted to the same message, we must change $B$ and $C$ in such a
+    way that the private key calculated from $B$ will remain the inverse. To do
+    this, we can modify the message to $(B * g, C * A)$.
+
+    Under $\Dec$, $K = B^a$ will be computed. This will now become $K' = (B *
+    g)^a = g^{(b+1)^a} = g^{ab + a}$. The cipertext $C'$ is now $C' = M *
+    A^{b+1} = M * g^{a^{b+1}} = M * g^{ab + a}$.
+
+    Now, $C' * K^{\prime-1} = M$, so the resulting plaintext has remain
+    unchanged despite a change in the ciphertext.
+
+  \item Any CPA-secure public key encryption scheme implies secure key
+    agreement.
+
+    Alice and Bob want to securely share some random data $r$ without an
+    observer learning anything about $r$. To do this, Alice computes $r$
+    randomly. She then encrypts the data under Bob's public key $e$ and
+    transmits the ciphertext to Bob. Bob then decodes the data using his private
+    key $d$.
+
+    We can prove the KA security of this algorithm using the CPA security of
+    RSA. We define two libraries, one which encrypts the actual key and returns
+    the transcript of the conversation (only the encrypted key), and the other
+    which returns the transcript of the actual key and a different random key.
+
+    \begin{minipage}{.5\textwidth}
+      $\lib{rsa-ka-real}^\Sigma$:
+        \fcodebox{
+          $(pk, sk) \gets \Sigma.\KeyGen$ \\ \\
+
+          \underline{\subname{getpk():}} \\
+          \> return $pk$ \\ \\
+
+          \underline{\subname{query()}} \\
+          \> $r \gets \{ 0, 1 \}^n$ \\
+          \> $c := \Sigma.\Enc(pk, r)$ \\
+          \> return $(c, r)$
+        }
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+      $\lib{rsa-ka-rand}^\Sigma$:
+        \fcodebox{
+          $(pk, sk) \gets \Sigma.\KeyGen$ \\ \\
+
+          \underline{\subname{getpk():}} \\
+          \> return $pk$ \\ \\
+
+          \underline{\subname{query()}} \\
+          \> $r \gets \{ 0, 1 \}^n$ \\
+          \> $c := \Sigma.\Enc(pk, r)$ \\
+          \> $r^\prime \gets \{ 0, 1 \}^n$ \\
+          \> return $(c, r')$
+        }
+    \end{minipage}
+
+    Based on RSA CPA security, we can say that these two libraries are
+    indistinguishable. Therefore, there is a negligible bias between the two
+    libraries, so the scheme is KA secure.
+\end{enumerate}
+
+\end{document}
