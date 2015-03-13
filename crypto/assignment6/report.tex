@@ -1,0 +1,135 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fullpage}
+\usepackage{xspace,graphicx,amsmath,amssymb,xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{numprint}
+
+\npthousandsep{ }
+
+\newcommand{\pct}{\mathbin{\%}}
+
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Enc}{\text{\sf Enc}}
+\newcommand{\Dec}{\text{\sf Dec}}
+\newcommand{\KeyGen}{\text{\sf KeyGen}}
+
+% fancy script L
+\usepackage[mathscr]{euscript}
+\renewcommand{\L}{\ensuremath{\mathscr{L}}\xspace}
+\newcommand{\lib}[1]{\ensuremath{\L_{\textsf{#1}}}\xspace}
+
+\newcommand{\myterm}[1]{\ensuremath{\text{#1}}\xspace}
+\newcommand{\bias}{\myterm{bias}}
+\newcommand{\link}{\diamond}
+\newcommand{\subname}[1]{\ensuremath{\textsc{#1}}\xspace}
+
+
+%%% code boxes
+
+\newcommand{\fcodebox}[1]{%
+    \framebox{\codebox{#1}}%
+}
+\newcommand{\hlcodebox}[1]{%
+    \fcolorbox{black}{myyellow}{\codebox{#1}}%
+}
+
+
+\usepackage{varwidth}
+
+\newcommand{\codebox}[1]{%
+        \begin{varwidth}{\linewidth}%
+        \begin{tabbing}%
+            ~~~\=\quad\=\quad\=\quad\=\kill
+            #1
+        \end{tabbing}%
+        \end{varwidth}%
+}
+
+
+\definecolor{myyellow}{HTML}{F5F589}
+
+\newcommand{\mathhighlight}[1]{\basehighlight{$#1$}}
+\newcommand{\highlightline}[1]{%\raisebox{0pt}[-\fboxsep][-\fboxsep]{
+    \hspace*{-\fboxsep}\basehighlight{#1}%
+%}
+}
+\newcommand{\basehighlight}[1]{\colorbox{myyellow}{#1}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+Kyle Cesare \hfill
+\today \hfill
+
+{\center\textbf{Assignment 6} \\}
+
+\begin{enumerate}
+  \item
+    \begin{enumerate}
+      \item Given $m$ and $\hat{m}$, Bob can easily compute the factorization of
+        $N$. He can do this by computing $\gcd{m - \hat{m}, N}$. This works
+        because the Chinese Remainder theorem assumes that its two inputs are
+        coprime. If they are not, then CRT is no longer a bijection.
+      \item $p =$\par
+        \numprint{105063345230616104657348013634297701786006542128941909083101185888832813981927541578449103885990606406091215423988641232290414368860661235234905516208831410002395649542617648887800946357680235133745987328106517234870888931439344639465469355722657253870347038180634028206997149618094761699250765049161158010333}
+        \\
+        $q =$\par
+        \numprint{105722510121768202453017905526586610731814392261695477092408333716909054138551302197840562316984219105412134944137320622309213706113643923000110183377692877131370958138341575812293551909674906411699253800954844839048508250646872023650828255279572673429525925225635765490424190021292823985629097143039308782541}
+
+        Because $\hat{m}$ is much larger than $m$, we can say that the hardware
+        fault in computing $m_q$ was an overcalulation (her erroneous
+        calculation was much larger than the correct calculation).
+
+    \end{enumerate}
+  \item To show that, given an RSA modulus $N$, finding an element in $\Z_N
+    \setminus \Z_N^*$ is at least as hard as factoring the modulus $N = pq$, I
+    will show present a reduction from factoring $N$ to this problem.
+
+    From the class notes we know that, given an RSA modulus $N$, computing
+    $\phi(N)$ is equivalent to factoring $N = pq$. We also know that $|\Z_N
+    \setminus \Z_N^*| = \phi(N)$.
+
+    Therefore, if we had method of computing a value in $\Z_N \setminus \Z_N^*$,
+    then we use it to compute every element in the set difference, thereby
+    computing $\phi(N)$. With $\phi(N)$, we could easily factor $N = pq$.
+
+    So, by the reduction from factoring $N$ to finding an element in the set
+    difference, we have shown that finding an element in the difference is at
+    least as hard as the factoring problem.
+  \item
+    \begin{enumerate}
+      \item Given an RSA modulus $N$ and $\phi(N)$, we can easily factor $N =
+        pq$. First, note the definition of $\phi(N)$:
+
+        $$\phi(N) = (p - 1)(q - 1)$$
+
+        Solving this for $p$ gives:
+
+        $$p = 1 - \phi(N) + pq - q$$
+
+        Substituting this back into $N = pq$ gives:
+
+        $$N = (1 - \phi(N) + pq - q)q$$
+
+        Simplifying gives us a quadratic:
+
+        $$0 = q^2 - q(N + 1 - \phi(N)) + N$$
+
+        This quadratic can be solved with the quadratic equation, using $a = 1$,
+        $b = - N - 1 + \phi(N)$, and $c = N$.
+
+      \item $p =$\par
+        \numprint{105063345230616104657348013634297701786006542128941909083101185888832813981927541578449103885990606406091215423988641232290414368860661235234905516208831410002395649542617648887800946357680235133745987328106517234870888931439344639465469355722657253870347038180634028206997149618094761699250765049161158010333}
+        \\
+        $q =$\par
+        \numprint{9352419571367596976939279289180413447699593351180217187280653361389412531812702891792282763505995136608679026507582290903916195465065737145139940492408335268162359576996486883373274104291965294741841070659192427935117575863981847460287191342833560356018485176253542816589237713501814110266911435430483265167}
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
