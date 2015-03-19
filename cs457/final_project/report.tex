@@ -1,0 +1,201 @@
+\documentclass[12pt,letterpaper,titlepage]{article}
+
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstdefinelanguage{GLSL}
+{
+sensitive=true,
+morekeywords=[1]{
+attribute, const, uniform, varying,
+layout, centroid, flat, smooth,
+noperspective, break, continue, do,
+for, while, switch, case, default, if,
+else, in, out, inout, float, int, void,
+bool, true, false, invariant, discard,
+return, mat2, mat3, mat4, mat2x2, mat2x3,
+mat2x4, mat3x2, mat3x3, mat3x4, mat4x2,
+mat4x3, mat4x4, vec2, vec3, vec4, ivec2,
+ivec3, ivec4, bvec2, bvec3, bvec4, uint,
+uvec2, uvec3, uvec4, lowp, mediump, highp,
+precision, sampler1D, sampler2D, sampler3D,
+samplerCube, sampler1DShadow,
+sampler2DShadow, samplerCubeShadow,
+sampler1DArray, sampler2DArray,
+sampler1DArrayShadow, sampler2DArrayShadow,
+isampler1D, isampler2D, isampler3D,
+isamplerCube, isampler1DArray,
+isampler2DArray, usampler1D, usampler2D,
+usampler3D, usamplerCube, usampler1DArray,
+usampler2DArray, sampler2DRect,
+sampler2DRectShadow, isampler2DRect,
+usampler2DRect, samplerBuffer,
+isamplerBuffer, usamplerBuffer, sampler2DMS,
+isampler2DMS, usampler2DMS,
+sampler2DMSArray, isampler2DMSArray,
+usampler2DMSArray, struct},
+morekeywords=[2]{
+radians,degrees,sin,cos,tan,asin,acos,atan,
+atan,sinh,cosh,tanh,asinh,acosh,atanh,pow,
+exp,log,exp2,log2,sqrt,inversesqrt,abs,sign,
+floor,trunc,round,roundEven,ceil,fract,mod,modf,
+min,max,clamp,mix,step,smoothstep,isnan,isinf,
+floatBitsToInt,floatBitsToUint,intBitsToFloat,
+uintBitsToFloat,length,distance,dot,cross,
+normalize,faceforward,reflect,refract,
+matrixCompMult,outerProduct,transpose,
+determinant,inverse,lessThan,lessThanEqual,
+greaterThan,greaterThanEqual,equal,notEqual,
+any,all,not,textureSize,texture,textureProj,
+textureLod,textureOffset,texelFetch,
+texelFetchOffset,textureProjOffset,
+textureLodOffset,textureProjLod,
+textureProjLodOffset,textureGrad,
+textureGradOffset,textureProjGrad,
+textureProjGradOffset,texture1D,texture1DProj,
+texture1DProjLod,texture2D,texture2DProj,
+texture2DLod,texture2DProjLod,texture3D,
+texture3DProj,texture3DLod,texture3DProjLod,
+textureCube,textureCubeLod,shadow1D,shadow2D,
+shadow1DProj,shadow2DProj,shadow1DLod,
+shadow2DLod,shadow1DProjLod,shadow2DProjLod,
+dFdx,dFdy,fwidth,noise1,noise2,noise3,noise4,
+EmitVertex,EndPrimitive},
+morekeywords=[3]{
+gl_VertexID,gl_InstanceID,gl_Position,
+gl_PointSize,gl_ClipDistance,gl_PerVertex,
+gl_Layer,gl_ClipVertex,gl_FragCoord,
+gl_FrontFacing,gl_ClipDistance,gl_FragColor,
+gl_FragData,gl_MaxDrawBuffers,gl_FragDepth,
+gl_PointCoord,gl_PrimitiveID,
+gl_MaxVertexAttribs,gl_MaxVertexUniformComponents,
+gl_MaxVaryingFloats,gl_MaxVaryingComponents,
+gl_MaxVertexOutputComponents,
+gl_MaxGeometryInputComponents,
+gl_MaxGeometryOutputComponents,
+gl_MaxFragmentInputComponents,
+gl_MaxVertexTextureImageUnits,
+gl_MaxCombinedTextureImageUnits,
+gl_MaxTextureImageUnits,
+gl_MaxFragmentUniformComponents,
+gl_MaxDrawBuffers,gl_MaxClipDistances,
+gl_MaxGeometryTextureImageUnits,
+gl_MaxGeometryOutputVertices,
+gl_MaxGeometryOutputVertices,
+gl_MaxGeometryTotalOutputComponents,
+gl_MaxGeometryUniformComponents,
+gl_MaxGeometryVaryingComponents,gl_DepthRange},
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/},
+morecomment=[l][keywordstyle4]{\#},
+}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,                    % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Octave,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,                       % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\title{Rendering Planets}
+\date{March 18, 2015}
+\author{Kyle Cesare}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This project focuses on the rendering of non-photorealistic planets. I am mainly
+interested in rendering a somewhat realistic planet surface, and an exaggerated
+atmospheric effect. The RenderMan software will be used to generate these
+images.
+
+\section{Results}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{planet1.png}
+  \caption{Planet with atmosphere and city lights.}
+\end{figure}
+
+%\begin{figure}[H]
+%  \centering
+%    % \includegraphics[width=0.5\textwidth]{rotation.png}
+%  \caption{Image with a circular region of interest, scaled and rotated.}
+%\end{figure}
+
+\section{Methodology}
+The first task is to render the planet's surface itself. This is accomplished by
+a surface shader and a displacement shader. This displacement shader is
+responsible for Generating the peaks, valleys, and seas of the planet. A simple
+noise function is used to do this. However, if the noise puts the surface below
+sea level, then the noise is scaled down to ensure that any water appears flat.
+
+Next, the surface shader colors the planet. Based on the level of displacement,
+the area is shaded as either mountain (white), land (green), or water (blue).
+The specularity of the surface also varies with each land type, with snow and
+water being the most specular. This creates a great-looking contrast between the
+water and land where the sunlight's main reflection is visible. Otherwise, the
+point is shaded using normal diffuse/specular lighting. Ambient lighting was not
+used because it would not be realistic in space, as there is no ambient light
+source to approximate.
+
+Clouds are generated in a similar way. A noise function is evaluated, and if it
+exceeds a threshold, then a cloud is drawn. City lights are also evaluated in
+this manner, but with an added random tolerance to prevent the whole area from
+lighting up. Randomness is used over a noise function because we want the
+distribution of the lights to be uniform, not clumped together.
+
+Next is the generation of the atmosphere. This is accomplished by an outer
+sphere shaded specularly. The term $-I \cdot N$ is used to scale the atmospheric
+lighting. Then, the RenderMan \texttt{illuminance} function is used to compute
+the lighting from all available light sources, given this scaling factor. The
+final output is then the scaled surface opacity. Playing with the surface color
+and RGB opacity channels can produce interesting effects.
+
+Lastly, a subtle glow is added around the planet to simulate atmospheric
+dispersion. This is approximated by the linear distance of the point in space
+from the center of the planet multiplied by a proportional term. To prevent this
+glow from getting in the way of the planet, the shader is only applied to a
+hemisphere rotated to the back of the planet.
+
+Finally, the background image is a texture of a starry night applied to a large
+sphere encompassing the entire scene.
+
+\section{Code Listing}
+\lstinputlisting[language=c]{planet.rib}
+\lstinputlisting[language=c]{planet_surf.sl}
+\lstinputlisting[language=c]{planet_disp.sl}
+\lstinputlisting[language=c]{clouds.sl}
+\lstinputlisting[language=c]{atmosphere.sl}
+\lstinputlisting[language=c]{glow.sl}
+
+\end{document}
