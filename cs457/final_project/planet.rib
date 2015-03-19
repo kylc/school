@@ -1,0 +1,90 @@
+##RenderMan RIB
+
+# define the output file:
+
+Display "planet.tiff" "file" "rgb" 
+Format 1000 1000 -1
+
+# define the lighting:
+
+LightSource "distantlight" 1 "intensity" [1.00] "from" [5 5 -0.5] "to" [0 0 0]
+	"lightcolor" [0.9 0.8 0.8] # Sun
+
+# define the rendering parameters:
+
+ShadingRate 1
+Projection "perspective" "fov" [90]
+
+
+# define the scene to be rendered:
+
+WorldBegin
+	# Atmosphere
+	AttributeBegin
+	 	Color   [0.3 0.3 0.4]		# specify the Cs color
+	 	Opacity [1 1 1]			# specify the Os opacity
+
+		Surface	     "atmosphere"
+		TransformBegin
+			Translate 0 0 6			# move away from the eye (= gluLookAt)
+			Rotate 90  1. 1. 0.		# rotate so don't see north pole
+			Sphere 3.3 -3.3 3.3 360 	# a full sphere
+		TransformEnd
+	AttributeEnd
+
+	# Atmosphere glow
+	AttributeBegin
+	 	Color   [0.7 0.7 0.9]				# specify the Cs color
+	 	Opacity [0.01 0.01 0.01]			# specify the Os opacity
+
+		Surface 	     "glow"
+		TransformBegin
+			Translate 0 0 6			# move away from the eye (= gluLookAt)
+			Rotate 90  1. 0. 0.		# rotate so don't see north pole
+			Sphere 4.9 -4.9 4.9 180 	# a full sphere
+		TransformEnd
+	AttributeEnd
+
+	# Clouds
+	AttributeBegin
+	 	Color   [1 1 1]			# specify the Cs color
+	 	Opacity [1 1 1]			# specify the Os opacity
+
+		Surface 	     "clouds"
+		TransformBegin
+			Translate 0 0 6			# move away from the eye (= gluLookAt)
+			Rotate 90  1. 1. 0.		# rotate so don't see north pole
+			Sphere 3.1 -3.1 3.1 360  	# a full sphere
+		TransformEnd
+	AttributeEnd
+
+	# Planet
+	AttributeBegin
+		Attribute "bound" "displacement" [0.1]
+
+		Surface	     "planet_surf"
+		Displacement "planet_disp"
+							# specify the surface shader
+		Color   [1 1 1]				# specify the Cs color
+		Opacity [1 1 1]				# specify the Os opacity
+		TransformBegin
+			Translate 0 0 6			# move away from the eye (= gluLookAt)
+			Rotate 90  1. 1. 0.		# rotate so don't see north pole
+			Sphere 3 -3 3 360 		# a full sphere
+		TransformEnd
+	AttributeEnd
+
+	# Stars
+	AttributeBegin
+		MakeTexture "stars.jpg" "stars.tex"  "clamp" "clamp" "gaussian" 2 2
+		Surface	     "stars"
+							# specify the surface shader
+		Color   [1 1 1]				# specify the Cs color
+		Opacity [1 1 1]				# specify the Os opacity
+		TransformBegin
+			Translate 0 0 9			# move away from the eye (= gluLookAt)
+			Rotate 90  1. 1. 0.		# rotate so don't see north pole
+			Sphere 10 -10 10 360 		# a full sphere
+		TransformEnd
+	AttributeEnd
+WorldEnd
